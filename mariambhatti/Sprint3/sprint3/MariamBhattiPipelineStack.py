@@ -3,7 +3,7 @@ import aws_cdk as cdk
 from aws_cdk import Stack
 from constructs import Construct
 import aws_cdk.pipelines as pipelines_
-import aws_codepipeline_actions as actions_
+from aws_cdk import aws_codepipeline_actions as actions_
 import aws_cdk.pipelines as pipelines_
 from sprint3.MariamBhattiStage import MariamBhattiStage
 
