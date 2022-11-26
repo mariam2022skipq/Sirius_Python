@@ -14,6 +14,7 @@ from aws_cdk import(
     aws_dynamodb as db_,)
 
 from resources import constants as constants
+from aws_cdk import aws_codedeploy as codedeploy_
 #bring metric in infrastructure to create alarm
  # aws_sqs as sqs,
 from constructs import Construct
@@ -79,6 +80,48 @@ class Sprint3Stack(Stack):
                 comparison_operator=cw_.ComparisonOperator.GREATER_THAN_THRESHOLD)
             latency_alarm.add_alarm_action(cw_actions_.SnsAction(topic))
         
+        #Now here I will create Alarms on various metrics for monitoring the health of our application:WebHealth lambda
+        #Defining the metrics
+        #https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_lambda/Function.html
+
+        dimension={'FunctionName':fn.function_name}
+        duration_metric=cw_.Metric(
+                metric_name="Duration",
+                namespace="AWS/Lambda",
+                dimensions_map=dimension)
+
+        invocation_metric=cw_.Metric(
+                metric_name="Invocations",
+                namespace="AWS/Lambda",
+                dimensions_map=dimension)
+
+        #create alarms on the metrics created above
+        duration_alarm=cw_.Alarm(self, "LessDurationError",
+                metric=duration_metric,
+                evaluation_periods=30,     
+                threshold=0.3 ,
+                comparison_operator=cw_.ComparisonOperator.LESS_THAN_THRESHOLD)
+        
+        invocation_alarm=cw_.Alarm(self, "MoreInvocationsError",
+                metric=invocation_metric,
+                evaluation_periods=30,     
+                threshold=0.5 ,
+                comparison_operator=cw_.ComparisonOperator.GREATER_THAN_THRESHOLD)
+
+        # used to make sure each CDK synthesis produces a different Version
+        #Now i will configure deployment groups and deployment configurations
+        #https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_codedeploy.html
+
+        version = fn.current_version
+        alias = lambda_.Alias(self, "LambdaAlias",
+            alias_name="Prod",
+            version=version)
+
+        #https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_codedeploy/CfnDeploymentConfig.html
+        deployment_group = codedeploy_.LambdaDeploymentGroup(self, "Deploy_Alarm_Action",    
+                    alias=alias,   
+                    alarms=[duration_alarm,invocation_alarm],
+                    deployment_config=codedeploy_.LambdaDeploymentConfig.LINEAR_10_PERCENT_EVERY_1_MINUTE)
         
 
     def create_lambda(self,id,asset,handler,role):
