@@ -42,7 +42,7 @@ class MariamBhattiPipelineStack(Stack):
                                             'npm install -g aws-cdk',
                                             "pip install -r requirements.txt",
                                             "pip install -r requirements-dev.txt",
-                                            "pytest",
+                                            'pytest',
                                              "cdk synth"],
                                             
                                 )

@@ -1,7 +1,6 @@
 #Directory for unit tests
 import aws_cdk as core
 import aws_cdk.assertions as assertions
-import pytest
 
 from sprint3.sprint3_stack import Sprint3Stack
 
