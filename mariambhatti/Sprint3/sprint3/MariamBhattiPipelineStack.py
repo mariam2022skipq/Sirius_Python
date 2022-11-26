@@ -27,7 +27,7 @@ class MariamBhattiPipelineStack(Stack):
                                           "npm install -g aws-cdk",
                                           "pip install -r requirements.txt",
                                           "cdk synth"],
-                                    primary_output_directory="Sprint3/cdk.out")
+                                    primary_output_directory="mariambhatti/Sprint3/cdk.out")
         #create a pipeline
         #https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.pipelines/ShellStep.html
         pipeline=pipelines_.CodePipeline(self, "MariamBhattiPipelineSprint3", synth=synth)
@@ -41,8 +41,9 @@ class MariamBhattiPipelineStack(Stack):
                                             'npm install -g aws-cdk',
                                             "pip install -r requirements.txt",
                                             "pip install -r requirements-dev.txt",
-                                             "pytest",
-                                             "cdk synth"],
+                                             "python3 -m pytest",
+                                             ],
+                                        
                                             
                                 )
                             ]
