@@ -34,7 +34,7 @@ class Sprint2Stack(Stack):
 
 
         #defining a rule to convert my lambda into a cron job,defining target of event, and defining rule to bind event and target
-        schedule=events_.Schedule.rate(Duration.minutes(60))
+        schedule=events_.Schedule.rate(Duration.minutes(15))
         target=target_.LambdaFunction(handler=fn)
         rule=events_.Rule(self, "WHAppRule",
             schedule=schedule,
@@ -49,7 +49,7 @@ class Sprint2Stack(Stack):
         #Define a DynamoDB table
         dbTable=self.create_dynamoDB_table()
         dbTable.grant_read_write_data(dbLambda)
-        dbLambda.add_environment('AlarmTable',dbTable.table_name)
+        dbLambda.add_environment('Alarmtable',dbTable.table_name)
 
 
 
@@ -63,8 +63,8 @@ class Sprint2Stack(Stack):
 
             availability_alarm=cw_.Alarm(self, url + "notOk",
                 metric=availability_metric,
-                evaluation_periods=60,     
-                threshold=1,
+                evaluation_periods=15,     
+                threshold=0.3,
                 comparison_operator=cw_.ComparisonOperator.LESS_THAN_THRESHOLD)
             availability_alarm.add_alarm_action(cw_actions_.SnsAction(topic))
             latency_metric=cw_.Metric(
@@ -74,7 +74,7 @@ class Sprint2Stack(Stack):
         )
             latency_alarm=cw_.Alarm(self, url + "Ok",
                 metric=latency_metric,
-                evaluation_periods=60,
+                evaluation_periods=15,
                 threshold=0.2,
                 comparison_operator=cw_.ComparisonOperator.GREATER_THAN_THRESHOLD)
             latency_alarm.add_alarm_action(cw_actions_.SnsAction(topic))
@@ -104,6 +104,7 @@ class Sprint2Stack(Stack):
         sort_key=db_.Attribute(name="Timestamp",type=db_.AttributeType.STRING))
         return table
 
+    
             
 
         
