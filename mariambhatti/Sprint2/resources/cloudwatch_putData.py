@@ -1,5 +1,6 @@
 import boto3
 import datetime
+import os
 
 class AWSCloudWatch:
     def __init__(self):
