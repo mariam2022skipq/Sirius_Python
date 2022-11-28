@@ -49,7 +49,7 @@ class Sprint2Stack(Stack):
         #Define a DynamoDB table
         dbTable=self.create_dynamoDB_table()
         dbTable.grant_read_write_data(dbLambda)
-        dbLambda.add_environment('Alarmtable',dbTable.table_name)
+        dbLambda.add_environment('AlarmTable',dbTable.table_name)
 
 
 
