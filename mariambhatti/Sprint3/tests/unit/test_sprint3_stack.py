@@ -1,5 +1,6 @@
 #Directory for unit tests
 import urllib3
+import boto3
 import aws_cdk as core
 import aws_cdk.assertions as assertions
 import pytest
