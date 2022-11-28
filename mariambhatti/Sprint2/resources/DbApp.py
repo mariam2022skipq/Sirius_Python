@@ -6,9 +6,9 @@ def lambda_handler(event, context):
     client = boto3.resource('dynamodb',region_name = 'us-east-2')
     dbtable=os.environ['Alarmtable']
     table = client.Table(dbtable)
-    message=event["Records"][0]["Sns"]["MessageId"]
-    time=event["Records"][0]["Sns"]["Timestamp"]
-    response = table.put_item(Item={'id':message,'Timestamp':time})
+    message_id = event["Records"][0]["Sns"]["MessageId"]
+    timestamp = event["Records"][0]["Sns"]["Timestamp"]
+    response = table.put_item(Item={'id':message_id,'Timestamp':timestamp})
 
 
 
