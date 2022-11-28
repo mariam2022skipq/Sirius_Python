@@ -11,7 +11,7 @@ def lambda_handler(event, context):
     #creating a cloudwatch object
     cloudwatch_object=AWSCloudWatch()
     values=dict()
-    #looping through the UR_TO_BE_MONITORED lis as we have 4 URLS whose health have to be monitored
+    #looping through the UR_TO_BE_MONITORED list as we have 4 URLS whose health have to be monitored
     #we have to get the availability and latency of each of the URLs by passing cloudwath_metric_data
     for url in constants.URL_TO_BE_MONITORED:
         availability=getAvail(url);
