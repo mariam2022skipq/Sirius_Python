@@ -11,7 +11,7 @@ from aws_cdk import(
     aws_sns as sns_,
     aws_sns_subscriptions as subscriptions_,
     aws_cloudwatch_actions as cw_actions_,
-    aws_apigateway as apigw,
+    aws_apigateway as apigateway,
     aws_dynamodb as db_,)
 
 from resources import constants as constants
@@ -29,50 +29,46 @@ class Sprint4Stack(Stack):
          #creating  a dynamoDB lambda and Db_lambda for inserting SNS event data to dynamoDB
         fn = self.create_lambda("WHlambda", './resources', 'Webhealthapp.lambda_handler',lambda_role)
         dbLambda= self.create_lambda("DBlambda", './resources', 'DbApp.lambda_handler',lambda_role)
-        #CRUD_lambda=self.create_lambda("CRUDlambda", './resources', 'DbApp.lambda_handler',lambda_role)
-        ApiLambda = self.create_lambda("APILambda", "./resources", "API.lambda_handler",lambda_role)
-
-        #removal policies for the destruction of lambda
-        fn.apply_removal_policy(RemovalPolicy.DESTROY)
-        dbLambda.apply_removal_policy(RemovalPolicy.DESTROY)
-
-        #------------------REST API Gateway------------------
-        #https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_apigateway/LambdaRestApi.html        
-
-        # new Lambda-backed REST Api
-        api = apigw.LambdaRestApi(self, "mariamAPI",
-            handler=ApiLambda,
-            proxy=False
-        )
+        #ApiLambda = self.create_lambda("APILambda", "./resources", "API.lambda_handler",lambda_role)
         ApiLambda = lambda_.Function(
             self,
             id="MariamLambda",
-            handler="API.lambda_handler",
+            handler="API_handler.lambda_handler",
             code=lambda_.Code.from_asset("./resources/"),
             runtime=lambda_.Runtime.PYTHON_3_8,
             role=lambda_role,
             timeout=Duration.minutes(5),
         )
 
+        #this is a dynamoDB table which will write CRUD operations
+        CRUD_dynamo_table = db_.Table(self,"CRUD_URL_Table",
+            partition_key=db_.Attribute(name="Website_ID", type=db_.AttributeType.STRING))
+        #extracting CRUD table name for ease
+        #crudTable=CRUD_dynamo_table.table_name
 
-        table = db_.Table(
-            self,
-            "URLTable",
-            partition_key=db_.Attribute(name="id", type=db_.AttributeType.STRING),
+        ApiLambda.add_environment("CRUD_URL_Table",CRUD_dynamo_table.table_name)
+        fn.add_environment("CRUD_table_for_webHealth_lambda",CRUD_dynamo_table.table_name)
+        
+        CRUD_dynamo_table.grant_full_access(fn)
+        CRUD_dynamo_table.grant_full_access(ApiLambda)
+
+        #removal policies for the destruction of lambda
+        fn.apply_removal_policy(RemovalPolicy.DESTROY)
+        dbLambda.apply_removal_policy(RemovalPolicy.DESTROY)
+        ApiLambda.apply_removal_policy(RemovalPolicy.DESTROY)
+
+
+        #table to write/read/update/get URLS which will come through HTTP requests
+
+        #------------------REST API Gateway------------------
+        #https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_apigateway/LambdaRestApi.html        
+
+        # new Lambda-backed REST Api
+        api = apigateway.LambdaRestApi(self, "mariamAPI",
+            handler=ApiLambda,
+            proxy=False
         )
-
-        ApiLambda.add_environment("URLTable", table.table_name)
-
-        # # Grant lambda permission to read/write in DynamoDb
-        table.grant_full_access(ApiLambda)
-
-
-
-
-
         #Api resources
-        #health = api.root.add_resource ("Health")
-        #WebCrawler =api.root.add_resource("WebCrawler")
         Websites = api.root.add_resource ("Websites")
 
 
@@ -82,11 +78,9 @@ class Sprint4Stack(Stack):
         Websites.add_method("GET")
         Websites.add_method("PATCH")
         Websites.add_method("DELETE")
-        #WebCrawler.add_method("GET")
-
 
         #API Deployment
-        #deployment = apigw.Deployment(self, "Mariamdeployment", api=api)
+        deployment = apigateway.Deployment(self, "Mariamdeployment", api=api)
 
 
         #defining a rule to convert my lambda into a cron job,defining target of event, and defining rule to bind event and target
@@ -104,6 +98,7 @@ class Sprint4Stack(Stack):
 
         #Define a DynamoDB table
         dbTable=self.create_dynamoDB_table()
+        #Grant access of this dynamo DB to DB_Lambda
         dbTable.grant_read_write_data(dbLambda)
         dbLambda.add_environment('AlarmTable',dbTable.table_name)
 
