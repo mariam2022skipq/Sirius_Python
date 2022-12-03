@@ -42,12 +42,12 @@ class Sprint4Stack(Stack):
 
         #this is a dynamoDB table which will write CRUD operations
         CRUD_dynamo_table = db_.Table(self,"CRUD_URL_Table",
-            partition_key=db_.Attribute(name="Website_ID", type=db_.AttributeType.STRING))
+            partition_key=db_.Attribute(name="Website_id", type=db_.AttributeType.STRING))
         #extracting CRUD table name for ease
         #crudTable=CRUD_dynamo_table.table_name
 
         ApiLambda.add_environment("CRUD_URL_Table",CRUD_dynamo_table.table_name)
-        fn.add_environment("CRUD_table_for_webHealth_lambda",CRUD_dynamo_table.table_name)
+        fn.add_environment("CRUD_tablewebHealth2",CRUD_dynamo_table.table_name)
         
         CRUD_dynamo_table.grant_full_access(fn)
         CRUD_dynamo_table.grant_full_access(ApiLambda)
@@ -64,7 +64,7 @@ class Sprint4Stack(Stack):
         #https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_apigateway/LambdaRestApi.html        
 
         # new Lambda-backed REST Api
-        api = apigateway.LambdaRestApi(self, "mariamAPI",
+        api = apigateway.LambdaRestApi(self, "mariamBhatti_API",
             handler=ApiLambda,
             proxy=False
         )
@@ -73,14 +73,14 @@ class Sprint4Stack(Stack):
 
 
         #Api Methods
-        #health.add_method("GET")
+        
         Websites.add_method("POST")
         Websites.add_method("GET")
         Websites.add_method("PATCH")
         Websites.add_method("DELETE")
 
         #API Deployment
-        deployment = apigateway.Deployment(self, "Mariamdeployment", api=api)
+        deployment = apigateway.Deployment(self, "Mariamdeployment2", api=api)
 
 
         #defining a rule to convert my lambda into a cron job,defining target of event, and defining rule to bind event and target
@@ -105,32 +105,33 @@ class Sprint4Stack(Stack):
 
 
         """now we will create alarms for both the metrics availability and latency"""
-        for url in constants.URL_TO_BE_MONITORED:
-            dimensions={'url':url}
-            availability_metric=cw_.Metric(
-                metric_name=constants.AvailabilityMetric,
-                namespace=constants.namespace,
-                dimensions_map=dimensions)
+       # for url in constants.URL_TO_BE_MONITORED:
+        #    dimensions={'url':url}
+        #    availability_metric=cw_.Metric(
+        #        metric_name=constants.AvailabilityMetric,
+        #        namespace=constants.namespace,
+        #        dimensions_map=dimensions)
 
-            availability_alarm=cw_.Alarm(self, url + "notOk",
-                metric=availability_metric,
-                evaluation_periods=60,     
-                threshold=1,
-                comparison_operator=cw_.ComparisonOperator.LESS_THAN_THRESHOLD)
-            availability_alarm.add_alarm_action(cw_actions_.SnsAction(topic))
-            latency_metric=cw_.Metric(
-                metric_name=constants.LatencyMetric,
-                namespace=constants.namespace,
-                dimensions_map=dimensions
-        )
-            latency_alarm=cw_.Alarm(self, url + "Ok",
-                metric=latency_metric,
-                evaluation_periods=60,
-                threshold=0.2,
-                comparison_operator=cw_.ComparisonOperator.GREATER_THAN_THRESHOLD)
-            latency_alarm.add_alarm_action(cw_actions_.SnsAction(topic))
+        #    availability_alarm=cw_.Alarm(self, url + "notOk",
+        #        metric=availability_metric,
+        #        evaluation_periods=60,     
+        #        threshold=1,
+        #        comparison_operator=cw_.ComparisonOperator.LESS_THAN_THRESHOLD)
+         #   availability_alarm.add_alarm_action(cw_actions_.SnsAction(topic))
+         #   latency_metric=cw_.Metric(
+         #       metric_name=constants.LatencyMetric,
+         #       namespace=constants.namespace,
+         #       dimensions_map=dimensions
+        #
+        #    latency_alarm=cw_.Alarm(self, url + "Ok",
+        #        metric=latency_metric,
+        #        evaluation_periods=60,
+        #        threshold=0.2,
+        #        comparison_operator=cw_.ComparisonOperator.GREATER_THAN_THRESHOLD)
+        #    latency_alarm.add_alarm_action(cw_actions_.SnsAction(topic))
         
         #Now here I will create Alarms on various metrics for monitoring the health of our application:WebHealth lambda
+
         #Defining the metrics
         #https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_lambda/Function.html
 
@@ -148,13 +149,13 @@ class Sprint4Stack(Stack):
         #create alarms on the metrics created above
         duration_alarm=cw_.Alarm(self, "LessDurationError",
                 metric=duration_metric,
-                evaluation_periods=30,     
+                evaluation_periods=10,     
                 threshold=0.3 ,
                 comparison_operator=cw_.ComparisonOperator.LESS_THAN_THRESHOLD)
         
         invocation_alarm=cw_.Alarm(self, "MoreInvocationsError",
                 metric=invocation_metric,
-                evaluation_periods=30,     
+                evaluation_periods=10,     
                 threshold=0.5 ,
                 comparison_operator=cw_.ComparisonOperator.GREATER_THAN_THRESHOLD)
 

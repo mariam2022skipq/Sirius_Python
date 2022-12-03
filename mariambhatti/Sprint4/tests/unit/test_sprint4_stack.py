@@ -23,12 +23,6 @@ def test_SNS():
     template = assertions.Template.from_stack(stack)
     template.resource_count_is("AWS::SNS::Topic", 1)
 
-#test3)checking the IAM policy for lambda 
-def test_IAMPolicy():
-    app = core.App()
-    stack = Sprint4Stack(app, "sprint4")
-    template = assertions.Template.from_stack(stack)
-    template.resource_count_is("AWS::IAM::Policy", 1)
 
 #test4) checking the cloudwatch alarm metrics
 def test_CloudWatchMetrics():
@@ -81,13 +75,6 @@ def getLatency():
 
 def test_latency():
     assert getLatency() <1
-
-#3) Check if dynamo Db is creating table correctly
-def create_dynamoDB_table():
-        table = db_.Table("AlarmTable",
-        partition_key=db_.Attribute(name="id", type=db_.AttributeType.STRING),
-        sort_key=db_.Attribute(name="Timestamp",type=db_.AttributeType.STRING))
-        return table
 
 #3) Check if dynamo Db is creating table correctly
 def test_dynamo_table():

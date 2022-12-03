@@ -1,18 +1,23 @@
 import boto3
 import os
-from Db_putdata import Dynamo1
 
+def lambda_handler(event,context):
+    # Get the service resource.
+    client = boto3.resource('dynamodb',region_name = 'us-east-2')
+    #get the key of the table
+    dbTable=os.environ['AlarmTable']
+    table = client.Table(dbTable)
+    message=event["Records"][0]["Sns"]["MessageId"]
+    time=event["Records"][0]["Sns"]["Timestamp"]
+    response = table.put_item(Item={'id':message,'Timestamp':time})
 
-def lambda_handler(event, context):
-    #creating a dynamo object of db_putdata
-    dynamo_obj = Dynamo1()
-    #extracting message ID and timestamp from JSOn file
-    message_id = event["Records"][0]["Sns"]["MessageId"]
-    timestamp = event["Records"][0]["Sns"]["Timestamp"]
-
-    #passing the data to be put into message id and time stamp in dynamoDB
-    dynamo_obj.db_put_data(message_id, timestamp)
     
+     
+
+   
+   
+    
+
 
 
 

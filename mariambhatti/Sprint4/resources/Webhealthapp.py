@@ -1,22 +1,39 @@
 import datetime
 import urllib3
 import boto3
+import json
+import logging
+import os
+from custom_encoder import customEncoder
 from cloudwatch_putData import AWSCloudWatch
 import constants as constants
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
-URL_TO_BE_MONITORED =["skipq.org","youtube.com","google.com","amazon.com"]
-
-
+#URL_TO_BE_MONITORED =["skipq.org","youtube.com","google.com","amazon.com"]
+url_list=[]
+values=[]
 def lambda_handler(event, context):
+    tablename = os.getenv("CRUD_tablewebHealth2")
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table(tablename)
+
+    #https://dynobase.dev/dynamodb-python-with-boto3/
+    response = table.scan()
+    data = response['Items']
+    while 'LastEvaluatedKey' in response:
+        response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+        data.extend(response['Items'])
+    for i in range(len(data)):
+        url_list.extend(data[i]["URL"])
+
     #creating a cloudwatch object
     cloudwatch_object=AWSCloudWatch()
-    values=dict()
-    #looping through the UR_TO_BE_MONITORED list as we have 4 URLS whose health have to be monitored
     #we have to get the availability and latency of each of the URLs by passing cloudwath_metric_data
-    for url in constants.URL_TO_BE_MONITORED:
+    for url in url_list:
+        dimensions=[{'Name':'URL', 'Value':url}]
         availability=getAvail(url);
         latency=getLatency(url);
-        dimensions=[{'Name':'url', 'Value':url}]
         cloudwatch_object.cloudwatch_metric_data(constants.namespace, constants.AvailabilityMetric,dimensions,availability)
         cloudwatch_object.cloudwatch_metric_data(constants.namespace, constants.LatencyMetric,dimensions,latency)
         values.update({"availability"+str(url):availability, "latency" + str(url):latency})

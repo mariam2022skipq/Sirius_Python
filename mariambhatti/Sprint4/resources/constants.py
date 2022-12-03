@@ -1,4 +1,4 @@
-URL_TO_BE_MONITORED =["skipq.org","youtube.com","google.com","amazon.com"]
+
 namespace="MariamBhattisprint2Namespace"
 AvailabilityMetric="URL_AVAILABILITY"
 LatencyMetric="URL_LATENCY"

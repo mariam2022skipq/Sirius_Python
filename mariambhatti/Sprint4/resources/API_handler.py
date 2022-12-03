@@ -13,50 +13,36 @@ tablename = os.getenv("CRUD_URL_Table")
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(tablename)
 
-
 #define methods
 getMethod = "GET"
 postMethod = "POST"
 patchMethod = "PATCH"
 deleteMethod = "DELETE"
 
-
-#Define paths
-healthPath = "/Health"
-webcrwalerPath = "/WebCrawler"
+#defining path for the event
 websitepath = "/Websites"
 
 def lambda_handler(event, context):
     logger.info(event)
     httpMethod = event["httpMethod"]
     path = event["path"]
-    
-    if httpMethod == getMethod and path == healthPath:
-        response = buildResponse (200)
-    
-    elif httpMethod == getMethod and path == websitepath:
+
+    if httpMethod == getMethod and path == websitepath:
         response = getWebsite(event['queryStringParameters']['websiteId'])
-    
-    elif httpMethod == getMethod and path == webcrwalerPath:
-        response = webcrawler()
-    
     elif httpMethod == postMethod and path == websitepath:
-        response = saveWebsite (json.loads(event['body']))
-    
+        response = addWebsite (json.loads(event['body']))
     elif httpMethod == patchMethod and path == websitepath:
         requestBody = json.loads(event['body'])
-        response = modifyWebsite (requestBody['websiteId'], requestBody['updateKey'], requestBody['updateValue'])
-    
+        response = updateWebsite (requestBody['websiteId'], requestBody['updateKey'], requestBody['updateValue'])
     elif httpMethod == deleteMethod and path == websitepath:
         requestBody = json.loads(event['body'])
-        response = deleteWebsite (requestBody['websiteId'])
-    
+        response = removeWebsite (requestBody['websiteId'])
     else:
         response = buildResponse(404, 'not found')
     
     return response
 
-
+#defining the Getwebsite method after parsing the APIGateway JSON File
 def getWebsite(websiteId):
     try:
         response = table.get_item (
@@ -71,27 +57,8 @@ def getWebsite(websiteId):
     except:
         logger.exception ('Do you custom error handling here')
 
-
-
-def webcrawler():
-    try:
-        response = table.scan()
-        result = response['Items']
-    
-        while 'lastEvaluatedKey' in response:
-            response = table.scan (ExclusiveStarKey = response['LastEvaluatedKey'])
-            result.extend(response['Items'])
-
-        body = {
-            'websites': result
-        }
-        return buildResponse(200, body)
-    except:
-        logger.exception ('Do you custom error handling here')
-
-
-
-def saveWebsite(requestBody):
+#defining the addWebsite API Gateway HTTP method for adding the URL to the table
+def addWebsite(requestBody):
     try:
         table.put_item (Item = requestBody)
         body = {
@@ -103,9 +70,7 @@ def saveWebsite(requestBody):
     except:
         logger.exception ('Do you custom error handling here')
 
-
-
-def modifyWebsite(websiteId, updateKey, updateValue):
+def updateWebsite(websiteId, updateKey, updateValue):
     try:
         response = table.update_item(
             Key = {
@@ -126,8 +91,7 @@ def modifyWebsite(websiteId, updateKey, updateValue):
     except:
         logger.exception ('Do you custom error handling here')
 
-
-def deleteWebsite(websiteId):
+def removeWebsite(websiteId):
     try:
         response = table.delete_item(
             Key = {
@@ -144,8 +108,6 @@ def deleteWebsite(websiteId):
     except:
         logger.exception ('Do you custom error handling here')
 
-
-
 def buildResponse(statusCode, body = None):
     response = {
         'statusCode': statusCode,
@@ -157,3 +119,7 @@ def buildResponse(statusCode, body = None):
     if body is not None:
         response['body'] = json.dumps(body, cls= customEncoder)
     return response
+
+
+
+    
