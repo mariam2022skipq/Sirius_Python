@@ -24,15 +24,6 @@ def test_SNS():
     template.resource_count_is("AWS::SNS::Topic", 1)
 
 
-#test4) checking the cloudwatch alarm metrics
-def test_CloudWatchMetrics():
-    app = core.App()
-    stack = Sprint4Stack(app, "sprint4")
-    template = assertions.Template.from_stack(stack)
-    template.has_resource_properties("AWS::CloudWatch::Alarm", {
-        "MetricName": "URL_AVAILABILITY",
-        "MetricName": "URL_LATENCY"
-    })
 #test5) checking the SNS subscription
 def test_SNS_Subscription():
     app = core.App()
@@ -76,16 +67,3 @@ def getLatency():
 def test_latency():
     assert getLatency() <1
 
-#3) Check if dynamo Db is creating table correctly
-def test_dynamo_table():
-    app=core.App()
-    stack=Sprint4Stack(app, "MariamBhattiStack")
-    table=stack.create_dynamoDB_table
-    assert table is not None
-
-#4) Check if lambda function is created successfully 
-def test_if_lambda_is_created():
-    app=core.App()
-    stack=Sprint4Stack(app, "MariamBhattiStack")
-    lambda_exists=stack.create_lambda
-    assert lambda_exists is not None
