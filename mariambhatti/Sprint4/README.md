@@ -119,11 +119,6 @@ The **Beta** stage performs the 5 Unit tests and 1 functional test using **Pytes
 The **Prod** stage performs the **Manual Approval** step, which requires the user to review and approve or reject the deployment to Production.
 <br />
 <br />
-> ## Objective
- <br />
-<br />
-<br />
-
 > ## AWS-Services
  <br />
 
@@ -221,12 +216,19 @@ In order to display the GUI of multiple services which i have used in my project
 <br />
 
 * #### API Gateway Screenshots
+
 <br />
+![image](https://user-images.githubusercontent.com/108882924/205706962-ef2b82f7-acdc-4717-9a07-7a0bdcadcb5f.png)
+![image](https://user-images.githubusercontent.com/108882924/205707395-cfa7289a-cb39-4245-bc0c-da062a271f8e.png)
+![image](https://user-images.githubusercontent.com/108882924/205707505-7e8e86fc-a35a-43e7-95cc-52d6b31effcc.png)
 
 
 <br />
 
 * #### URL TABLE DYNAMO DB SNAPSHOTS
+![image](https://user-images.githubusercontent.com/108882924/205707811-3cd422a2-180d-4f6a-bda1-147b75367583.png)
+![image](https://user-images.githubusercontent.com/108882924/205708356-c2608801-a3da-4eef-bb5f-3d0b2d865d64.png)
+
 <br />
 
 
@@ -234,29 +236,24 @@ In order to display the GUI of multiple services which i have used in my project
 
 * #### CloudWatch Screenshots
 <br />
+![image](https://user-images.githubusercontent.com/108882924/205710047-e90cbc5b-1d2e-4f0e-8d1b-7a1d75c4ab8a.png)
 
-
-
-<br />
-
-* #### SNS notifications for Alarms on Cloudwatch metrics
-<br />
 
 
 <br />
 
 * #### CodePipeline Screenshots
 <br />
+![image](https://user-images.githubusercontent.com/108882924/205710151-5e2789aa-b21f-4045-9870-1945184b924c.png)
+![image](https://user-images.githubusercontent.com/108882924/205710287-0cfce995-036a-4736-9404-bb76b48b500b.png)
 
 
 <br />
 
 * #### Unit Functional and Integration Tests
+![image](https://user-images.githubusercontent.com/108882924/205709624-7b028a03-e339-4574-acab-0de347edaa32.png)
+
 <br />
-
-
-
-
 
 > ## Useful Commands
 
