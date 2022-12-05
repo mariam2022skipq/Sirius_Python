@@ -123,7 +123,6 @@ class Sprint4Stack(Stack):
 
 
         """now we will create alarms for both the metrics availability and latency"""
-       # for url in constants.URL_TO_BE_MONITORED:
         #    dimensions={'url':url}
         #    availability_metric=cw_.Metric(
         #        metric_name=constants.AvailabilityMetric,
