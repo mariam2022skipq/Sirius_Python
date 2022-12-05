@@ -119,11 +119,6 @@ The **Beta** stage performs the 5 Unit tests and 1 functional test using **Pytes
 The **Prod** stage performs the **Manual Approval** step, which requires the user to review and approve or reject the deployment to Production.
 <br />
 <br />
-> ## Objective
- <br />
-<br />
-<br />
-
 > ## AWS-Services
  <br />
 
