@@ -221,12 +221,19 @@ In order to display the GUI of multiple services which i have used in my project
 <br />
 
 * #### API Gateway Screenshots
+
 <br />
+![image](https://user-images.githubusercontent.com/108882924/205706962-ef2b82f7-acdc-4717-9a07-7a0bdcadcb5f.png)
+![image](https://user-images.githubusercontent.com/108882924/205707395-cfa7289a-cb39-4245-bc0c-da062a271f8e.png)
+![image](https://user-images.githubusercontent.com/108882924/205707505-7e8e86fc-a35a-43e7-95cc-52d6b31effcc.png)
 
 
 <br />
 
 * #### URL TABLE DYNAMO DB SNAPSHOTS
+![image](https://user-images.githubusercontent.com/108882924/205707811-3cd422a2-180d-4f6a-bda1-147b75367583.png)
+![image](https://user-images.githubusercontent.com/108882924/205708356-c2608801-a3da-4eef-bb5f-3d0b2d865d64.png)
+
 <br />
 
 
@@ -234,29 +241,25 @@ In order to display the GUI of multiple services which i have used in my project
 
 * #### CloudWatch Screenshots
 <br />
+![image](https://user-images.githubusercontent.com/108882924/205708570-1966fe85-8988-44c5-85d9-10ed5db2d96a.png)
+![image](https://user-images.githubusercontent.com/108882924/205708876-76c86b80-27b4-454f-b389-404e417cb8e3.png)
 
-
-
-<br />
-
-* #### SNS notifications for Alarms on Cloudwatch metrics
-<br />
 
 
 <br />
 
 * #### CodePipeline Screenshots
 <br />
+![image](https://user-images.githubusercontent.com/108882924/205709382-5c42b679-644f-4103-98bc-a83a2845754e.png)
+![image](https://user-images.githubusercontent.com/108882924/205709449-e454bb34-c21a-441e-9839-13deba811689.png)
 
 
 <br />
 
 * #### Unit Functional and Integration Tests
+![image](https://user-images.githubusercontent.com/108882924/205709624-7b028a03-e339-4574-acab-0de347edaa32.png)
+
 <br />
-
-
-
-
 
 > ## Useful Commands
 
