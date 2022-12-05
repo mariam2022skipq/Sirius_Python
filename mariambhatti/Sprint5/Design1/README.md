@@ -65,7 +65,7 @@ This project in order to build a CRUD API Gateway endpoint for the CDK app to po
 
 >  ## Design Diagram
 <br />
-![image](https://user-images.githubusercontent.com/108882924/205771355-058727eb-c746-467e-b2b8-7ce1d25a3614.png)
+![Design_image](https://user-images.githubusercontent.com/108882924/205771355-058727eb-c746-467e-b2b8-7ce1d25a3614.png)
 
 
 
