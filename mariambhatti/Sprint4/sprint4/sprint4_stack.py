@@ -10,12 +10,18 @@ from aws_cdk import(
     aws_iam as iam_,
     aws_sns as sns_,
     aws_sns_subscriptions as subscriptions_,
+    aws_sns_subscriptions as sub_,
     aws_cloudwatch_actions as cw_actions_,
     aws_apigateway as apigateway,
+    aws_lambda_event_sources as es,
     aws_dynamodb as db_,)
 
 from resources import constants as constants
 from aws_cdk import aws_codedeploy as codedeploy_
+from aws_cdk.aws_lambda_event_sources import SnsEventSource
+namespace="MariamBhattisprint2Namespace"
+AvailabilityMetric="URL_AVAILABILITY"
+LatencyMetric="URL_LATENCY"
 #bring metric in infrastructure to create alarm
  # aws_sqs as sqs,
 from constructs import Construct
@@ -26,7 +32,7 @@ class Sprint4Stack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
         lambda_role=self.create_lambda_role()
-         #creating  a dynamoDB lambda and Db_lambda for inserting SNS event data to dynamoDB
+        #creating  a dynamoDB lambda and Db_lambda for inserting SNS event data to dynamoDB
         fn = self.create_lambda("WHlambda", './resources', 'Webhealthapp.lambda_handler',lambda_role)
         dbLambda= self.create_lambda("DBlambda", './resources', 'DbApp.lambda_handler',lambda_role)
         #ApiLambda = self.create_lambda("APILambda", "./resources", "API.lambda_handler",lambda_role)
@@ -69,22 +75,27 @@ class Sprint4Stack(Stack):
             proxy=False
         )
         #Api resources
+        health = api.root.add_resource ("Health")
+        WebCrawler =api.root.add_resource("WebCrawler")
         Websites = api.root.add_resource ("Websites")
 
 
+
         #Api Methods
-        
+        health.add_method("GET")
         Websites.add_method("POST")
         Websites.add_method("GET")
         Websites.add_method("PATCH")
         Websites.add_method("DELETE")
+        WebCrawler.add_method("GET")
+        
 
         #API Deployment
         deployment = apigateway.Deployment(self, "Mariamdeployment2", api=api)
 
 
         #defining a rule to convert my lambda into a cron job,defining target of event, and defining rule to bind event and target
-        schedule=events_.Schedule.rate(Duration.minutes(60))
+        schedule=events_.Schedule.rate(Duration.minutes(10))
         target=target_.LambdaFunction(handler=fn)
         rule=events_.Rule(self, "WHAppRule",
             schedule=schedule,
@@ -95,6 +106,13 @@ class Sprint4Stack(Stack):
         topic=sns_.Topic(self, "WHealth_Notification")
         #now we have to connect my sns and its topic
         topic.add_subscription(subscriptions_.EmailSubscription('mariambhattiskipq@gmail.com'))
+        #topic.add_subscription(subscriptions_.LambdaSubscription(dbLambda))
+        dbLambda.add_event_source(SnsEventSource(topic))
+
+        topicName = topic.topic_name
+        fn.add_environment("topicName", topicName)
+
+
 
         #Define a DynamoDB table
         dbTable=self.create_dynamoDB_table()
@@ -149,14 +167,14 @@ class Sprint4Stack(Stack):
         #create alarms on the metrics created above
         duration_alarm=cw_.Alarm(self, "LessDurationError",
                 metric=duration_metric,
-                evaluation_periods=10,     
-                threshold=0.3 ,
-                comparison_operator=cw_.ComparisonOperator.LESS_THAN_THRESHOLD)
+                evaluation_periods=1,     
+                threshold=0.2 ,
+                comparison_operator=cw_.ComparisonOperator.GREATER_THAN_THRESHOLD)
         
         invocation_alarm=cw_.Alarm(self, "MoreInvocationsError",
                 metric=invocation_metric,
-                evaluation_periods=10,     
-                threshold=0.5 ,
+                evaluation_periods=1,     
+                threshold=5,
                 comparison_operator=cw_.ComparisonOperator.GREATER_THAN_THRESHOLD)
 
         # used to make sure each CDK synthesis produces a different Version
@@ -173,7 +191,12 @@ class Sprint4Stack(Stack):
                     alias=alias,   
                     alarms=[duration_alarm,invocation_alarm],
                     deployment_config=codedeploy_.LambdaDeploymentConfig.LINEAR_10_PERCENT_EVERY_1_MINUTE)
-        
+
+        AutoRollback = codedeploy_.AutoRollbackConfig(
+            deployment_in_alarm= True,
+            failed_deployment= True,
+            stopped_deployment= True
+        )
 
     def create_lambda(self,id,asset,handler,role):
         return lambda_.Function(self,

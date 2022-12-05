@@ -20,14 +20,18 @@ patchMethod = "PATCH"
 deleteMethod = "DELETE"
 
 #defining path for the event
+healthPath = "/Health"
+webcrwalerPath = "/WebCrawler"
 websitepath = "/Websites"
 
 def lambda_handler(event, context):
     logger.info(event)
     httpMethod = event["httpMethod"]
     path = event["path"]
-
-    if httpMethod == getMethod and path == websitepath:
+     
+    if httpMethod == getMethod and path == healthPath:
+        response = buildResponse (200)
+    elif httpMethod == getMethod and path == websitepath:
         response = getWebsite(event['queryStringParameters']['websiteId'])
     elif httpMethod == postMethod and path == websitepath:
         response = addWebsite (json.loads(event['body']))
@@ -37,6 +41,9 @@ def lambda_handler(event, context):
     elif httpMethod == deleteMethod and path == websitepath:
         requestBody = json.loads(event['body'])
         response = removeWebsite (requestBody['websiteId'])
+    elif httpMethod == getMethod and path == webcrwalerPath:
+        response = webcrawler()
+    
     else:
         response = buildResponse(404, 'not found')
     
@@ -107,6 +114,23 @@ def removeWebsite(websiteId):
         return buildResponse(200,body)
     except:
         logger.exception ('Do you custom error handling here')
+
+def webcrawler():
+    try:
+        response = table.scan()
+        result = response['Items']
+    
+        while 'lastEvaluatedKey' in response:
+            response = table.scan (ExclusiveStarKey = response['LastEvaluatedKey'])
+            result.extend(response['Items'])
+
+        body = {
+            'websites': result
+        }
+        return buildResponse(200, body)
+    except:
+        logger.exception ('Do you custom error handling here')
+
 
 def buildResponse(statusCode, body = None):
     response = {
