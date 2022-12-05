@@ -236,8 +236,7 @@ In order to display the GUI of multiple services which i have used in my project
 
 * #### CloudWatch Screenshots
 <br />
-![image](https://user-images.githubusercontent.com/108882924/205708570-1966fe85-8988-44c5-85d9-10ed5db2d96a.png)
-![image](https://user-images.githubusercontent.com/108882924/205708876-76c86b80-27b4-454f-b389-404e417cb8e3.png)
+![image](https://user-images.githubusercontent.com/108882924/205710047-e90cbc5b-1d2e-4f0e-8d1b-7a1d75c4ab8a.png)
 
 
 
@@ -245,8 +244,8 @@ In order to display the GUI of multiple services which i have used in my project
 
 * #### CodePipeline Screenshots
 <br />
-![image](https://user-images.githubusercontent.com/108882924/205709382-5c42b679-644f-4103-98bc-a83a2845754e.png)
-![image](https://user-images.githubusercontent.com/108882924/205709449-e454bb34-c21a-441e-9839-13deba811689.png)
+![image](https://user-images.githubusercontent.com/108882924/205710151-5e2789aa-b21f-4045-9870-1945184b924c.png)
+![image](https://user-images.githubusercontent.com/108882924/205710287-0cfce995-036a-4736-9404-bb76b48b500b.png)
 
 
 <br />
