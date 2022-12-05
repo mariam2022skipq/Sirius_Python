@@ -191,11 +191,6 @@ class Sprint4Stack(Stack):
                     alarms=[duration_alarm,invocation_alarm],
                     deployment_config=codedeploy_.LambdaDeploymentConfig.LINEAR_10_PERCENT_EVERY_1_MINUTE)
 
-        AutoRollback = codedeploy_.AutoRollbackConfig(
-            deployment_in_alarm= True,
-            failed_deployment= True,
-            stopped_deployment= True
-        )
 
     def create_lambda(self,id,asset,handler,role):
         return lambda_.Function(self,
