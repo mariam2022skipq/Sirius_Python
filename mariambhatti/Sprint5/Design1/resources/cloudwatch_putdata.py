@@ -33,6 +33,6 @@ class AWSCloudWatch:
             Threshold=threshold,
             ComparisonOperator=compop,
             Statistic = "Average",
-            Period = 120,
+            Period = 60,
             EvaluationPeriods = 1
         )

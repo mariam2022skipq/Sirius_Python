@@ -13,8 +13,6 @@ db = boto3.resource('dynamodb', region_name='us-east-2')
 dbnameTable=os.environ["ArgTable"]
 table=db.Table(dbnameTable)
 # Get topic of sns
-snsTopic=os.environ["snsTopic"]
-AlarmActions = ["arn:aws:sns:us-east-2:315997497220:{snsTopic}".format(snsTopic=snsTopic)]
 
 #array for storing websites
 ARG =[]
@@ -23,6 +21,9 @@ values=[]
 
 def lambda_handler(event, context):
     # CloudWatchAWS Object
+    snsTopic=os.environ["topicname"]
+    AlarmActions = ["arn:aws:sns:us-east-2:315997497220:{snsTopic}".format(snsTopic=snsTopic)]
+
     cloudWatch_Object=AWSCloudWatch()
 
     #values extraction from table using scan
@@ -30,20 +31,20 @@ def lambda_handler(event, context):
     lists=response["Items"]
     for i in lists:
         ARG.append(i['ARG'])
-    i=1
-    for j in ARG:
+    
+    for i in ARG:
         
-        dimensions=[{'Name': 'ARG', 'Value': j} ]
-        n=int(j)
+        dimensions=[{'Name': 'ARG', 'Value': i} ]
+        n=int(i)
         
         #Sending argument metrics to cloudwatch for alarms
         cloudWatch_Object.cloudWatch_metrics(constants.namespace,constants.AvailabiltyMetric, dimensions, n)
         
-        cloudWatch_Object.cloudWatch_alarms("Mariam-Argument of "+str(i),
+        cloudWatch_Object.cloudWatch_alarms("Mariam-Argument  "+str(i),
         AlarmActions,constants.AvailabiltyMetric,constants.namespace,dimensions,10,"GreaterThanThreshold")
 
-        values.append({"ARG "+str(i)+": ":n})
-        i+=1
+        values.append({"ARG "+str(i)+": ":i})
+        
         
         
     return values

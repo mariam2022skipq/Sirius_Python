@@ -47,7 +47,7 @@ class Design1Stack(Stack):
         #adding a topic for SNS email notification and add subscription to it
         topic = sns_.Topic(self, id = "Email_Notification")
         topic.add_subscription(subscriptions_.EmailSubscription("mariambhattiskipq@gmail.com"))
-        dbLambda.add_environment("Email_Notification",topic.topic_name)
+        dbLambda.add_environment("topicname",topic.topic_name)
         topic.add_subscription(subscriptions_.LambdaSubscription(dbLambda)) 
 
         #configuring our restful API and POST method
@@ -67,7 +67,7 @@ class Design1Stack(Stack):
         apiTable.grant_read_write_data(apilambda)
         apilambda.add_environment("ArgTable", apiTable.table_name)
         dbLambda.add_environment("ArgTable", apiTable.table_name)
-        dbLambda.add_environment("snsTopic", topic.topic_name)
+        #dbLambda.add_environment("snsTopic", topic.topic_name)
 
     def create_api_table(self):
         table = db_.Table(self, "ArgTable",
