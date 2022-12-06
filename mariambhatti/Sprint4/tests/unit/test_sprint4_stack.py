@@ -17,21 +17,6 @@ from sprint4.sprint4_stack import Sprint4Stack
     #template = assertions.Template.from_stack(stack)
     #template.resource_count_is("AWS::Lambda::Function", 4)
 #test2) Checking the creation of SNS topic
-def test_SNS():
-    app = core.App()
-    stack = Sprint4Stack(app, "sprint4")
-    template = assertions.Template.from_stack(stack)
-    template.resource_count_is("AWS::SNS::Topic", 1)
-
-
-#test5) checking the SNS subscription
-def test_SNS_Subscription():
-    app = core.App()
-    stack = Sprint4Stack(app, "sprint4")
-    template = assertions.Template.from_stack(stack)
-    template.has_resource_properties("AWS::SNS::Subscription", {
-        "Endpoint": "mariambhattiskipq@gmail.com"
-    })
 
 #test6) Check if dynamo DB table is created or not 
 #def test_Dynamo_Db_existence():
