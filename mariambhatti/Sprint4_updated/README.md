@@ -222,6 +222,12 @@ In order to display the GUI of multiple services which i have used in my project
 ![image](https://user-images.githubusercontent.com/108882924/205707395-cfa7289a-cb39-4245-bc0c-da062a271f8e.png)
 ![image](https://user-images.githubusercontent.com/108882924/205707505-7e8e86fc-a35a-43e7-95cc-52d6b31effcc.png)
 
+![image](https://user-images.githubusercontent.com/108882924/205968344-faabfa45-60a7-48d5-95cb-c3cded80bb0a.png)
+![image](https://user-images.githubusercontent.com/108882924/205968412-1abd7151-c89c-4317-ac1b-421cdeddf3f9.png)
+![image](https://user-images.githubusercontent.com/108882924/205968495-0a400cbe-4b4c-4fba-b727-b5a6d6756801.png)
+![image](https://user-images.githubusercontent.com/108882924/205968566-5eef3b05-ed5f-4d98-b417-99800082e17d.png)
+
+
 
 <br />
 
