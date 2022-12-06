@@ -39,11 +39,6 @@ What will you do if there is no lambda invocation even though the code is workin
 
     * ### [CloudWatch Alarms](#cloudwatch-alarm-screenshots)
 
-    * ### [CodePipeline](#codepipeline-screenshots)
-
-    * ### [Unit Functional & Integration Tests](#unit-functional-and-integration-tests)
-
-
  * ### [References](#references-1)
  * ### [Useful Commands](#useful-commands-1)
  * ### [Author Contact](#author-contact-1)
@@ -54,9 +49,9 @@ What will you do if there is no lambda invocation even though the code is workin
 >  ## Overview
  <br />
 
-This project in order to build a CRUD API Gateway endpoint for the CDK app to populate a ARG DynamoDB table using REST API CRUD operations, so that i can monitor the arg1 values sent by the API Gateway and whenever the arg1 value is greater then 10 an Alarm is raised and SNS based email is sent to my email account.  
+This project in order to build a CRUD API Gateway endpoint for the CDK app to populate a ARG DynamoDB table using REST API CRUD operations,in this way, we can monitor the argument values sent by API gateway to a dynamo DB table and do comparison that whether the argument value is greater than threshold of 10. If that is the case ,A cloudwatch alarm is raised and SNS email notification is sent 
 
- * The ARG1 value metric that i have used to check the integer value sent by API Gateway and is **ARG1 Value Metric**.
+ * The ARG1 value metric that I have used to check the integer value sent by API Gateway and is **ARG1 Value Metric**.
 
  The ARG1 value metric is defined using boto3 SDK and is triggered by a **Lambda Funtion**, which i have converted into a **Cron Job** by defining event rule, which will invoke Lambda after every 60 minutes. This Lambda will then check the values of **ARG1 Values**. Against this metric, i have defined threshold i.e **10 for arg1_value**. If the threshold is breached, An alarm will be triggered in **CloudWatch**. For the momment when alarm is triggered, i have used **AWS SNS Service** to send a detailed notification on subscriber's **Email**, also this SNS will trigger a **Lambda Funtion** which will then save that alarm information in a **DynamoDB Table**.
  
@@ -65,7 +60,8 @@ This project in order to build a CRUD API Gateway endpoint for the CDK app to po
 
 >  ## Design Diagram
 <br />
-![Design_image](https://user-images.githubusercontent.com/108882924/205771355-058727eb-c746-467e-b2b8-7ce1d25a3614.png)
+
+![image](https://user-images.githubusercontent.com/108882924/206033886-27e79b80-6864-4478-9d5a-70ccfcff642a.png)
 
 
 
