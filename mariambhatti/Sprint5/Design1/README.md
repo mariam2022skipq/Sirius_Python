@@ -92,23 +92,20 @@ The **DELETE** method  performs the functionality to delete a record in the tabl
 <br />
 <br />
 
- > ## CI/CD Pipeline
+ > ## RESULTS
  <br />
+![image](https://user-images.githubusercontent.com/108882924/206034492-91a9940a-3c47-4425-8ff4-febf3fd0d633.png)
+![image](https://user-images.githubusercontent.com/108882924/206034686-967e8b58-d25e-463f-93d7-b8ac667e3991.png)
+![image](https://user-images.githubusercontent.com/108882924/206034838-7ee0f6b5-3a33-4826-857a-7435a57fcfb1.png)
+![image](https://user-images.githubusercontent.com/108882924/206038941-8e47d6c4-ac2d-4748-91f3-3fecbbabd286.png)
+![image](https://user-images.githubusercontent.com/108882924/206039017-eb8abb27-6df2-48f5-ba8e-461c79d34ee0.png)
+![image](https://user-images.githubusercontent.com/108882924/206039410-85613768-27cb-40b4-89dd-d9c0846843b6.png)
+![image](https://user-images.githubusercontent.com/108882924/206039513-4b8a161d-7ef9-4666-af42-e95b9c9201ab.png)
+![image](https://user-images.githubusercontent.com/108882924/206040669-14831ffb-23b0-4f48-9b09-67fa4fe51fbc.png)
+![image](https://user-images.githubusercontent.com/108882924/206040709-3f8a0200-443b-4075-b06a-ee639ac89e44.png)
 
- The CI/CD Pipeline is implemented using **AWS CodePipeline** as the base, **Github** as a **Source**, **AWS CodeBuild** as the build service and **AWS CodeDeploy** for deployment.
- The multi-stage pipeline CI/CD is divided into 2 stages with unit, functional and integration tests being perfomed, also Manual approval is required in pre production stage:
- <br /> 
 
- * **Beta (Unit, Functional and Integration Tests)**
- * **Prod (Manual Approval)**
-<br />
 
-The **Beta** stage performs the 5 Unit tests and 1 functional test using **Pytest** fixtures and for resource count, resource properties and assertions match with stack templates and creation of dynamodb table in stack.
-For the Integration test i am testing the integration between two units, and scanning the Alarm Table from DynamoDB to check that upon breach of threshold the ARG1 alarms are populated in the Alarm DynamoDB table.
-<br /> 
-
-The **Prod** stage performs the **Manual Approval** step, which requires the user to review and approve or reject the deployment to Production.
-<br />
 <br />
 
 > ## AWS-Services
