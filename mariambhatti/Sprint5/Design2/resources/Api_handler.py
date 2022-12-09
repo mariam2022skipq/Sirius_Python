@@ -3,59 +3,53 @@ import os
 import boto3
 from datetime import datetime
 
-# https://dynobase.dev/dynamodb-python-with-boto3/#list-tables
-db = boto3.resource("dynamodb", region_name="us-east-2")
-
-# https://www.geeksforgeeks.org/python-os-getenv-method/
-# Get key value of the table
-dbnameTable = os.environ["EventTable"]
-table = db.Table(dbnameTable)
-
 
 def lambda_handler(event, context):
-    # Get the method
-    httpmethod = event["httpMethod"]
-    # Get the url
-    body = event["body"]
-    # taking request time from event
-    requestTime = event["requestContext"]["requestTime"]
-    # taking current date time
-    now = datetime.now()
-    date_ = now.isoformat()
+        # https://dynobase.dev/dynamodb-python-with-boto3/#list-tables
+    db = boto3.resource("dynamodb", region_name="us-east-2")
+    
+    # https://www.geeksforgeeks.org/python-os-getenv-method/
+    # Get key value of the table
+    dbnameTable = os.environ["EventTable"]
+    table = db.Table(dbnameTable)
+    Method = event["httpMethod"]
 
-    # adding attr1 and request time in our api table
-    # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Table.put_item
-    if httpmethod == "POST":
+    if Method == "POST":
+        #myevent =json.loads(event["body"]) # json.loads()  converts  valid JSONstring file into json or python Dictionary.
+        #val = myevent[0]["event1"]["attr1"] # slicing : fetching events1 and attr1
+        val=event["body"]
+        timestamp=event["requestContext"]["requestTime"]
+        #timestamp = datetime.now().isoformat()
 
-        key = {"arg": body, "requestTime": date_}
+            # https://dynobase.dev/dynamodb-python-with-boto3/#put-item
+        response=table.put_item(
+        Item={
+                "Timestamp": timestamp,
+                "val": val,
+               })
+        return {
+            "body":"Value Added"
+        }
 
-        response = table.put_item(
-            Item=key,
-        )
 
-        if response:
-            return json_response(
-                {"message": "Entered the value in the table successfully"}
-            )
+
+    elif Method == "GET":
+        response = table.scan()
+        list_items = response['Items']
+        array=[]
+        for i in range(len(list_items)):
+            array.append([list_items[i]["Timestamp"], list_items[i]["val"]])
+        latest_items=sorted(array, reverse=True)
+        if len(latest_items)<=10:
+            print(latest_items)
         else:
-            return json_response({"message": "Invalid Response"})
+            print(latest_items[0:10])
+        return {"body": f"{latest_items[:10]}"}
 
-    # Reading the 10 latest events from table
-    # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.scan
-
-    else:
-        response = table.scan(Limit=10)["Items"]
-
-        if response:
-            return json_response(response)
-        else:
-            return json_response({"message": "The table is empty"})
-
-
-# Defining the json response method for returning response in json format
-def json_response(res):
-    return {
-        "statusCode": 200,
-        "body": json.dumps(res),
-        "headers": {"Content-Type": "application/json"},
-    }
+       
+    # response = {
+    #         "statusCode": 200,
+    #         "body": body,
+    #         "isBase64Encoded": False
+    #     }
+    # return response
