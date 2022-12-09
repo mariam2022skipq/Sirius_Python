@@ -39,11 +39,6 @@ What will you do if there is no lambda invocation even though the code is workin
 
     * ### [CloudWatch Alarms](#cloudwatch-alarm-screenshots)
 
-    * ### [CodePipeline](#codepipeline-screenshots)
-
-    * ### [Unit Functional & Integration Tests](#unit-functional-and-integration-tests)
-
-
  * ### [References](#references-1)
  * ### [Useful Commands](#useful-commands-1)
  * ### [Author Contact](#author-contact-1)
@@ -54,9 +49,9 @@ What will you do if there is no lambda invocation even though the code is workin
 >  ## Overview
  <br />
 
-This project in order to build a CRUD API Gateway endpoint for the CDK app to populate a ARG DynamoDB table using REST API CRUD operations, so that i can monitor the arg1 values sent by the API Gateway and whenever the arg1 value is greater then 10 an Alarm is raised and SNS based email is sent to my email account.  
+This project in order to build a CRUD API Gateway endpoint for the CDK app to populate a ARG DynamoDB table using REST API CRUD operations,in this way, we can monitor the argument values sent by API gateway to a dynamo DB table and do comparison that whether the argument value is greater than threshold of 10. If that is the case ,A cloudwatch alarm is raised and SNS email notification is sent 
 
- * The ARG1 value metric that i have used to check the integer value sent by API Gateway and is **ARG1 Value Metric**.
+ * The ARG1 value metric that I have used to check the integer value sent by API Gateway and is **ARG1 Value Metric**.
 
  The ARG1 value metric is defined using boto3 SDK and is triggered by a **Lambda Funtion**, which i have converted into a **Cron Job** by defining event rule, which will invoke Lambda after every 60 minutes. This Lambda will then check the values of **ARG1 Values**. Against this metric, i have defined threshold i.e **10 for arg1_value**. If the threshold is breached, An alarm will be triggered in **CloudWatch**. For the momment when alarm is triggered, i have used **AWS SNS Service** to send a detailed notification on subscriber's **Email**, also this SNS will trigger a **Lambda Funtion** which will then save that alarm information in a **DynamoDB Table**.
  
@@ -65,7 +60,8 @@ This project in order to build a CRUD API Gateway endpoint for the CDK app to po
 
 >  ## Design Diagram
 <br />
-![Design_image](https://user-images.githubusercontent.com/108882924/205771355-058727eb-c746-467e-b2b8-7ce1d25a3614.png)
+
+![image](https://user-images.githubusercontent.com/108882924/206033886-27e79b80-6864-4478-9d5a-70ccfcff642a.png)
 
 
 
@@ -96,23 +92,36 @@ The **DELETE** method  performs the functionality to delete a record in the tabl
 <br />
 <br />
 
- > ## CI/CD Pipeline
+ > ## RESULTS
  <br />
+ 
+![image](https://user-images.githubusercontent.com/108882924/206034492-91a9940a-3c47-4425-8ff4-febf3fd0d633.png)
 
- The CI/CD Pipeline is implemented using **AWS CodePipeline** as the base, **Github** as a **Source**, **AWS CodeBuild** as the build service and **AWS CodeDeploy** for deployment.
- The multi-stage pipeline CI/CD is divided into 2 stages with unit, functional and integration tests being perfomed, also Manual approval is required in pre production stage:
- <br /> 
+ 
+![image](https://user-images.githubusercontent.com/108882924/206034686-967e8b58-d25e-463f-93d7-b8ac667e3991.png)
 
- * **Beta (Unit, Functional and Integration Tests)**
- * **Prod (Manual Approval)**
-<br />
 
-The **Beta** stage performs the 5 Unit tests and 1 functional test using **Pytest** fixtures and for resource count, resource properties and assertions match with stack templates and creation of dynamodb table in stack.
-For the Integration test i am testing the integration between two units, and scanning the Alarm Table from DynamoDB to check that upon breach of threshold the ARG1 alarms are populated in the Alarm DynamoDB table.
-<br /> 
+![image](https://user-images.githubusercontent.com/108882924/206034838-7ee0f6b5-3a33-4826-857a-7435a57fcfb1.png)
 
-The **Prod** stage performs the **Manual Approval** step, which requires the user to review and approve or reject the deployment to Production.
-<br />
+
+![image](https://user-images.githubusercontent.com/108882924/206038941-8e47d6c4-ac2d-4748-91f3-3fecbbabd286.png)
+
+
+![image](https://user-images.githubusercontent.com/108882924/206039017-eb8abb27-6df2-48f5-ba8e-461c79d34ee0.png)
+
+
+![image](https://user-images.githubusercontent.com/108882924/206039410-85613768-27cb-40b4-89dd-d9c0846843b6.png)
+
+
+![image](https://user-images.githubusercontent.com/108882924/206039513-4b8a161d-7ef9-4666-af42-e95b9c9201ab.png)
+
+
+![image](https://user-images.githubusercontent.com/108882924/206040669-14831ffb-23b0-4f48-9b09-67fa4fe51fbc.png)
+
+
+![image](https://user-images.githubusercontent.com/108882924/206040709-3f8a0200-443b-4075-b06a-ee639ac89e44.png)
+
+
 <br />
 
 > ## AWS-Services
