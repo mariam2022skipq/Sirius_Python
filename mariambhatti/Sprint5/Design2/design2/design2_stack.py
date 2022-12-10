@@ -35,14 +35,22 @@ class Design2Stack(Stack):
 
 
         #creating a lambda 
+        #https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_lambda/README.html
         lambda_role=self.lambda_role()
         apilambda= self.create_lambda("API_Lambda" , './resources' , "Api_handler.lambda_handler",lambda_role)
+
+        #Defining Removal policy for Lambda
         apilambda.apply_removal_policy(RemovalPolicy.DESTROY)
 
+        """ Creating DB table """
+        # https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_dynamodb/README.html
         event_table=self.create_api_table()
         event_table.grant_read_write_data(apilambda)
         apilambda.add_environment("EventTable", event_table.table_name)
+    
 
+        """ Creating API Gateway""" 
+        # https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_apigateway/README.html
         api = apigateway_.LambdaRestApi(self, "Mariam_Design2_API1",
                                 handler=apilambda,    
                                 proxy=False
@@ -51,6 +59,8 @@ class Design2Stack(Stack):
                                 handler=apilambda,    
                                 proxy=False
                             )
+
+        #Adding root and resources to API gateway
         api_item=api.root.add_resource("API_1_Events")
         api_item.add_method("POST")
         api_item.add_method("GET")
@@ -58,7 +68,19 @@ class Design2Stack(Stack):
         api_item2=api2.root.add_resource("API_2_Events")
         api_item2.add_method("POST")
         api_item2.add_method("GET")
-       
+
+    # DynamoDB Table 
+    # https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_dynamodb/Table.html
+    """ 
+        Create DB Table
+        
+        Parameters:
+                partition_key (Union[Attribute, Dict[str, Any]]) - Partition key attribute definition.
+                sort_key (Union[Attribute, Dict[str, Any], None]) - Sort key attribute definition. Default: no sort key
+        Return:
+                DynamoDB Table
+    
+    """  
 
 
     def create_api_table(self):
@@ -67,6 +89,19 @@ class Design2Stack(Stack):
             removal_policy= RemovalPolicy.DESTROY,
         )
         return table
+
+    # https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_lambda/README.html
+    """ 
+        Creates lambda function from the construct library.
+        
+        Parameters:
+                assets (str) - Stack file path for the application to be deployed on lambda.
+                handler (str) - Handler function to execute.
+                role (str) - IAM role for lambda function.
+        Return:
+                Lambda fucntion
+    
+    """
         
 
  

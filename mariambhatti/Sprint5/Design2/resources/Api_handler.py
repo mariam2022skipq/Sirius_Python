@@ -5,7 +5,6 @@ from datetime import datetime
 
 # https://dynobase.dev/dynamodb-python-with-boto3/#list-tables
 db = boto3.resource("dynamodb", region_name="us-east-2")
-# https://www.geeksforgeeks.org/python-os-getenv-method/
 # Get key value of the table
 dbnameTable = os.environ["EventTable"]
 table = db.Table(dbnameTable)
@@ -17,8 +16,7 @@ def lambda_handler(event, context):
     val=event["body"]
 
     if Method == "POST":
-        #myevent =json.loads(event["body"]) # json.loads()  converts  valid JSONstring file into json or python Dictionary.
-        #val = myevent[0]["event1"]["attr1"] # slicing : fetching events1 and attr1
+        #creating a variable to parse my event in the given form
         dict_mariam = [{
                   "event1":{"attr1": val }
                   
@@ -27,7 +25,7 @@ def lambda_handler(event, context):
         timestamp=event["requestContext"]["requestTime"]
         #timestamp = datetime.now().isoformat()
 
-            # https://dynobase.dev/dynamodb-python-with-boto3/#put-item
+        # https://dynobase.dev/dynamodb-python-with-boto3/#put-item
         response=table.put_item(
         Item={
                 "Timestamp": timestamp,
@@ -44,12 +42,21 @@ def lambda_handler(event, context):
 
 
     elif Method == "GET":
+        #https://dynobase.dev/dynamodb-python-with-boto3/#scan
+        #Getting all the items from dynamo db
+
         response = table.scan()
         list_items = response['Items']
         array=[]
+        #Appending item values : TimeStamp and Values  in an array
+        #I have given partition key as Timestamp
         for i in range(len(list_items)):
             array.append([list_items[i]["Timestamp"], list_items[i]["val"]])
+
+        #sorting the array to get the latest elements
         latest_items=sorted(array, reverse=True)
+
+        #Returning these lines in reuturn of correct response when Get operation is done successfully
         if len(latest_items)<=10:
             return {
             'statusCode': 200,
@@ -71,9 +78,4 @@ def lambda_handler(event, context):
             
 
        
-    # response = {
-    #         "statusCode": 200,
-    #         "body": body,
-    #         "isBase64Encoded": False
-    #     }
-    # return responsw
+   
