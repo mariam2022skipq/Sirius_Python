@@ -3,21 +3,27 @@ import os
 import boto3
 from datetime import datetime
 
+# https://dynobase.dev/dynamodb-python-with-boto3/#list-tables
+db = boto3.resource("dynamodb", region_name="us-east-2")
+# https://www.geeksforgeeks.org/python-os-getenv-method/
+# Get key value of the table
+dbnameTable = os.environ["EventTable"]
+table = db.Table(dbnameTable)
 
+URL=[]
 def lambda_handler(event, context):
-        # https://dynobase.dev/dynamodb-python-with-boto3/#list-tables
-    db = boto3.resource("dynamodb", region_name="us-east-2")
-    
-    # https://www.geeksforgeeks.org/python-os-getenv-method/
-    # Get key value of the table
-    dbnameTable = os.environ["EventTable"]
-    table = db.Table(dbnameTable)
+     
     Method = event["httpMethod"]
+    val=event["body"]
 
     if Method == "POST":
         #myevent =json.loads(event["body"]) # json.loads()  converts  valid JSONstring file into json or python Dictionary.
         #val = myevent[0]["event1"]["attr1"] # slicing : fetching events1 and attr1
-        val=event["body"]
+        dict_mariam = [{
+                  "event1":{"attr1": val }
+                  
+              }]
+        val=dict_mariam[0]['event1']['attr1']
         timestamp=event["requestContext"]["requestTime"]
         #timestamp = datetime.now().isoformat()
 
@@ -28,7 +34,11 @@ def lambda_handler(event, context):
                 "val": val,
                })
         return {
-            "body":"Value Added"
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json'
+            },
+            'body': json.dumps('URL Added Successfully')
         }
 
 
@@ -41,10 +51,24 @@ def lambda_handler(event, context):
             array.append([list_items[i]["Timestamp"], list_items[i]["val"]])
         latest_items=sorted(array, reverse=True)
         if len(latest_items)<=10:
-            print(latest_items)
+            return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json'
+            },
+            'body': json.dumps(latest_items),
+        }
+            
         else:
-            print(latest_items[0:10])
-        return {"body": f"{latest_items[:10]}"}
+             return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json'
+            },
+            'body': json.dumps(latest_items),
+        }
+
+            
 
        
     # response = {
@@ -52,4 +76,4 @@ def lambda_handler(event, context):
     #         "body": body,
     #         "isBase64Encoded": False
     #     }
-    # return response
+    # return responsw

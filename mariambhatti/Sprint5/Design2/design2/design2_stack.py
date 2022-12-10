@@ -63,7 +63,7 @@ class Design2Stack(Stack):
 
     def create_api_table(self):
         table = db_.Table(self, "EventTable",
-            partition_key=db_.Attribute(name="Event_value", type=db_.AttributeType.STRING),
+            partition_key=db_.Attribute(name="Timestamp", type=db_.AttributeType.STRING),
             removal_policy= RemovalPolicy.DESTROY,
         )
         return table
@@ -87,6 +87,3 @@ class Design2Stack(Stack):
             lambda_role.add_managed_policy(iam_.ManagedPolicy.from_aws_managed_policy_name("CloudWatchFullAccess"))
             lambda_role.add_managed_policy(iam_.ManagedPolicy.from_aws_managed_policy_name("AmazonDynamoDBFullAccess"))
             return lambda_role
-        
-
-
