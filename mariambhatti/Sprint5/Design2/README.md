@@ -88,7 +88,7 @@ For this I will scan the table , get the table items from dynamoDb, and pass the
 
 ## Design Image
 
-
+![image](https://user-images.githubusercontent.com/108882924/206873573-3e798fa3-d64e-4241-a24d-c54256e2bc14.png)
 
 
 ## Results
