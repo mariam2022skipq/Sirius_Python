@@ -93,6 +93,23 @@ For this I will scan the table , get the table items from dynamoDb, and pass the
 
 ## Results
 
+###API Gateways
+![image](https://user-images.githubusercontent.com/108882924/206873006-a7335969-df48-4839-9a84-62cc0b59bde7.png)
+
+###API Methods Post and Get
+![image](https://user-images.githubusercontent.com/108882924/206873022-45dcf8a1-6aee-4334-844f-e13784059d18.png)
+
+### Testing POST method
+![image](https://user-images.githubusercontent.com/108882924/206873074-bddf6c35-0611-4ef8-a4a4-c4b9556ac243.png)
+
+### DynamoDB values added
+
+![image](https://user-images.githubusercontent.com/108882924/206873110-74af671d-a954-49c6-b970-746af43aaf7a.png)
+
+### Testing the Get method
+
+![image](https://user-images.githubusercontent.com/108882924/206873139-10821327-f55d-4829-8fd0-36eac47a37da.png)
+
 
 ##Useful Links:
 
