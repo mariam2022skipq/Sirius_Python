@@ -3,7 +3,7 @@
 Sprint 5 is a series of tasks that entail various challenges designed to allow the trainee to build on existing and new knowledge of the AWS platform and develop/design solutions.During this Sprint, we will design nine application specific designs. Some of the designs also need to be developed and deployed as a working solution.
 
 
-## Design3 TASK 4
+## Design3 TASK 2
 Design & Develop - Deploy, maintain and rollback pipeline for an artifact deployment e-g lambda
 package, docker image etc.
 ##### 1) If the latest Deployment is failing, Why do you think it is ?
@@ -98,6 +98,11 @@ ALARM("FrontEndApiService_High_Cpu_Usage")
 ![image](https://user-images.githubusercontent.com/108882924/206919503-46485442-6931-4b3a-bd17-51fa8751ec87.png)
 
 ![image](https://user-images.githubusercontent.com/108882924/206919512-04c8b02f-1f14-43b9-bf09-d5baf80d8e90.png)
+
+## Code Pipeline
+
+![image](https://user-images.githubusercontent.com/108882924/206919622-b315ec4d-eeb4-4f5c-bf43-b150af56e07c.png)
+
 
 
 
