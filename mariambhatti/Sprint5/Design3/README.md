@@ -42,21 +42,71 @@ a) Deploy
 b) Maintain
 c) Rollback
 
+## Code Pipeline 
+![image](https://user-images.githubusercontent.com/108882924/206919759-77af4b10-9c21-4870-89ec-50a78fda1227.png)
+
+
+
 ## How would you automate deployment (e-g on AWS) for a system that has:
 #### a) Source code in a repo
 ##### AWS CodeDeploy allows complete automation of software deployments, allowing us to deploy reliably and rapidly from repositories hosted on various version control systems or even zip files or artifacts hosted in the S3 bucket or ECR respectively. Codedeploy allows consistent deployment of an application across development, test, and production environments whether deploying to Amazon EC2, AWS Fargate, AWS Lambda, or on-premises servers.
+You can use Github or Git commit as a source Repo 
+
+Using AWS codePipeline 
+![image](https://user-images.githubusercontent.com/108882924/206923482-3f3c1b2d-b27b-4f13-98cb-016732c22416.png)
+
+![image](https://user-images.githubusercontent.com/108882924/206922183-a0572fcd-e462-44ea-abbe-2e594095b892.png)
+Source : https://www.xavor.com/blog/how-to-automate-deployments-on-aws/
 
 #### b) How do we generate an artifact from the repo that gets published and later is used in some services?
-##### CodePipeline creates an Amazon S3 bucket in the same AWS Region to store items for all pipelines. It uses that folder to store artifacts for your pipeline as the automated release process runs. When you create or edit a pipeline, you must have an artifact bucket in the pipeline Region and you must have one artifact bucket per Region where you plan to execute an action. If you use the console to create a pipeline or cross-Region actions, default artifact buckets are configured by CodePipeline in the Regions where you have actions. 
+
+Source : https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome-introducing-artifacts.html
+https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-artifactstore.html
+
+##### CodePipeline creates an Amazon S3 bucket in the same AWS Region to store items for all pipelines. It then uses s3 bucket to store those artifacts.You must have one artifact bucket per Region. If you use the console to create a pipeline or cross-Region actions, default artifact buckets are configured by CodePipeline in the Regions where you have actions.
+
+![image](https://user-images.githubusercontent.com/108882924/206924053-c2e252a1-3d46-4056-be46-9ae6ac957fbc.png)
+
+
+If you use the AWS CLI to create a pipeline, you can store the artifacts for that pipeline in any Amazon S3 bucket as long as that bucket is in the same AWS account and AWS Region as the pipeline. You might do this if you are concerned about exceeding the limits of Amazon S3 buckets allowed for your account.
+
+![image](https://user-images.githubusercontent.com/108882924/206922386-bbbc7f96-c543-492b-9810-53eae26bbbba.png)
+
 
 #### c) Are there more than one solutions?
-##### Alternatives to codedeploy include Jenkins, CircleCI, and GitLab. 
-
 ##### To create an artifact other options include using an instance of AWS artifact or AWS codebuild to create a docker image and have it saved to the ECR or S3.
+##### Alternatives to codedeploy include:
+1) Jenkins
+2) Red Hat Ansible Automation Platform
+3) Octupus Deploy : Octopus Deploy software is a deployment automation server both on-premises or in the cloud. The software manages QA, acceptance testing and production deployments. Complex deployments steps for .NET, Java, and other platforms are made simple. Manage Access control and measure the performance via Dashboard. Developers, Small and Medium companies make use of the software.
+4)Circle CI , GitLab
+5) Progress Chef
+
+#### Using Codepipeline with Third-Party action Providers (Github and Jenkins):
+
+![image](https://user-images.githubusercontent.com/108882924/206923217-03657dc7-a766-4bcf-b1b3-334608e68670.png)
+
+#### Use CodePipeLine with ElasticBeanStalk for Continuous Delivery of Web applications to Cloud
+
+https://aws.amazon.com/elasticbeanstalk/
+##### Elastic Beanstalk is a compute service that lets you deploy web applications and services to web servers. Use CodePipeline with Elastic Beanstalk for continuous deployment of web applications to your application environment
+
+##### Use CodePipeline with AWS CloudFormation templates for continuous delivery to the cloud
+
+
+### Technology stack for the whole Pipeline:
+![image](https://user-images.githubusercontent.com/108882924/206924136-da09f259-0d75-4d07-be68-891dce4626dc.png)
+
+
+
+Source : https://www.trustradius.com/products/aws-codedeploy/competitors
 
 
 
 ## Design Image
+![image](https://user-images.githubusercontent.com/108882924/206924751-5eeff595-c996-4d09-99d8-4efd595d549d.png)
+
+
 
 
 
