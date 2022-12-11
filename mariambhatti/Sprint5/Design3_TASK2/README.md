@@ -40,18 +40,25 @@ Amazon Elastic Container Registry (Amazon ECR) is a fully managed Docker contain
 Creating Pipelines through the console is fairly straightforward. This document explains how to perform the following operation on a pipeline with a Lambda Package/Docker Image 
 a) Deploy 
 b) Maintain
-c) Rollback
-
-
-## Question 1:
-### If the latest Deployment is failing, Why do you think it is ?
-Deployments can fail due to a number of reasons but are always triggered when an alarm is raised. A piece of code that is not backwards compatible is also a likely cause of failed deployment.
-Despite all these checks, it’s still possible for the deployed code to contain bugs or inconsistencies. The only accurate method of fully certifying that the application or a new feature works according to specification is when a user uses it. Code with a bug may go undetected until it gets to the final user. The code is already in production and connected to many other important components, so minimizing downtime is essential in this case.  
+c) Rollbackproduction and connected to many other important components, so minimizing downtime is essential in this case.  
 
 
 ## Question 2: 
 ### How will you rollback?
-Manual rollbacks are not an option on AWS but in case an alarm is triggered, a rollback is initiated automatically. It is important to note that regardless of the deployment technique (Canary, Red-Green Deployment, etc.) applied, the rollback will initiate a new install of the previous working version of the application on all instances. 
+
+Source : 
+https://aws.amazon.com/builders-library/automating-safe-hands-off-deployments/#:~:text=Pipelines%20at%20Amazon%20automatically%20validate,underlying%20operation%20system%20(OS).
+
+Metrics monitoring and auto-rollback:
+ 1) The deployment system actively monitors an alarm to determine if it needs to automatically roll back a deployment.
+ 2) A rollback will switch the environment back to the container image, AWS Lambda function deployment package, or internal deployment package i.e container images that was previously deployed.
+#### Example from Amazon Auto rollback systems:
+Each microservice in each Region typically has a high-severity alarm that triggers on thresholds for the metrics that impact the service’s customers (like fault rates and high latency) and on system health metrics (like CPU utilization).This high-severity alarm is used to page the oncall engineer and to automatically roll back the service if a deployment is in progress. Often, the rollback is already in progress by the time the oncall engineer has been paged and starts engaging.
+Example : 
+ALARM("FrontEndApiService_High_Fault_Rate") OR
+ALARM("FrontEndApiService_High_P50_Latency") OR
+ALARM("FrontEndApiService_High_Cpu_Usage") 
+
 
 
 ### Question 3:
