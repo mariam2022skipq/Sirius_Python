@@ -95,7 +95,9 @@ ALARM("FrontEndApiService_High_Cpu_Usage")
 
 
 ## Design Image
-![image](https://user-images.githubusercontent.com/108882924/206919503-46485442-6931-4b3a-bd17-51fa8751ec87.png)
+
+![image](https://user-images.githubusercontent.com/108882924/206924895-d0a4b961-f752-4600-9757-4b808d6406a6.png)
+
 
 ![image](https://user-images.githubusercontent.com/108882924/206919512-04c8b02f-1f14-43b9-bf09-d5baf80d8e90.png)
 
