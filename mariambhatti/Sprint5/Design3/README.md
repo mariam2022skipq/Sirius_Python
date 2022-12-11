@@ -62,5 +62,5 @@ c) Rollback
 
 ## Authors
 
-- [Muhammad AbuBakkar Bin Akmal](https://www.github.com/AbuBakkar2022skipq)
+- [Mariam Bhatti](mariambhatti8989@gmail.com)
 
