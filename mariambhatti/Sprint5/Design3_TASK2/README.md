@@ -85,7 +85,7 @@ ALARM("FrontEndApiService_High_Cpu_Usage")
 ### How do you reduce such failures so there is less need to rollback
 1) More testing phases More types of testing : Unit , functional , Integration tests
 2) Multpile Pre-production environments such as gamma stage: Gamma validates that the code is both functional and that it can be safely deployed to production. Gamma is as production-like as possible, including the same deployment configuration, the same monitoring and alarms, and the same continuous canary testing as production. Gamma is also deployed in multiple AWS Regions to catch any potential impact from regional differences. 
-3) Use autorollback configuration
+3) Use autorollback configuration and configure load balancing , and manual approval action (prod)
 4) Limiting the scope of each individual deployment limits the potential impact on customers from failed production deployments and prevents a multi-Availability-Zone or multi-Region ,impact split the production phase of the pipeline into many stages and many deployments to individual Regions
 
 ![image](https://user-images.githubusercontent.com/108882924/206913013-a6b3d8f0-d7b2-49ab-bc21-67729d3f75e8.png)
