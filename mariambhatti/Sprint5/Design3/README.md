@@ -49,7 +49,7 @@ c) Rollback
 
 ## How would you automate deployment (e-g on AWS) for a system that has:
 #### a) Source code in a repo
-##### AWS CodeDeploy allows complete automation of software deployments, allowing us to deploy reliably and rapidly from repositories hosted on various version control systems or even zip files or artifacts hosted in the S3 bucket or ECR respectively. Codedeploy allows consistent deployment of an application across development, test, and production environments whether deploying to Amazon EC2, AWS Fargate, AWS Lambda, or on-premises servers.
+##### AWS CI/CD allows complete automation of software deployments, allowing us to deploy reliably and rapidly from repositories hosted on various version control systems or even zip files or artifacts hosted in the S3 bucket or ECR respectively. Codedeploy allows consistent deployment of an application across development, test, and production environments whether deploying to Amazon EC2, AWS Fargate, AWS Lambda, or on-premises servers.
 You can use Github or Git commit as a source Repo 
 
 Using AWS codePipeline 
