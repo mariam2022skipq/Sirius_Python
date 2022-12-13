@@ -2,8 +2,8 @@
 
 Sprint 5 is a series of tasks that entail various challenges designed to allow the trainee to build on existing and new knowledge of the AWS platform and develop/design solutions.
 
-## Task 6
-#### Design & Develop - Design an end-to-end CI/CD delivery pipeline for a website on AWS that has following components: 1) EC2 instances for some static calculations 2) S3 for website pages 3) API GW and lambda triggers 4) CloudWatch alarms on number of API calls received
+## Design 4
+#### Design an end-to-end CI/CD delivery pipeline for a website on AWS that has following components: 1) EC2 instances for some static calculations 2) S3 for website pages 3) API GW and lambda triggers 4) CloudWatch alarms on number of API calls received
 
 
 
@@ -32,11 +32,19 @@ c) Rollback
 
 
 ### Solution Explained:
-##### 
+##### I have followed the following steps given below for the solution of this design:
+#### 1) Set up an Amazon S3 bucket to store the website pages.Also, EC2 instance which can perform static calculations to be required by the website.
+#### 2) Continuous Integration and COntinuous Delivery (CI/CD) pipeline is enabled as the Developer pushes the code from a source repo to Codepipeline.
+#### 3) For the components of CodePipeline , I have used  CodeCommit , Code build and Code deploy of AWS. Secrets manager is used to retrive token of the repo for pushing code
+#### 4) Code is deployed on S3 and EC2.
+#### 5) Set up an API Gateway to handle API calls from user and trigger the corresponding Lambda function to retrieve static website content from S3 and EC2 in case of calculations.For example, a Lambda function can be triggered when an API request is received to retrieve data from the EC2 instance and return it to the website.
+#### 6) Amazon Cloudwatch is configured with lambda and it can also be directly connected with API Gateway to trigger a CloudWatch Alarms on the number of API calls recieved.
+#### 7)There is another solution for accessing static website content. CloudFront distribution can be used for accessing content from S3 by the user using Signed URLs
+#### 8) Amazon Cognito is used for user authentication using congito user pools
+#### 9) Amazon CloudTrail can also be enabled to watch the codepipeline events and API calls and other AWS account Events and sends them to Cloudwatch logs
 
 
 
 
-## Authors
 
 - [Mariam Bhatti](mariambhatti8989@gmail.com)
