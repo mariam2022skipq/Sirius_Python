@@ -1,58 +1,42 @@
+# Sirius Python Sprint 5
 
-# Welcome to your CDK Python project!
+Sprint 5 is a series of tasks that entail various challenges designed to allow the trainee to build on existing and new knowledge of the AWS platform and develop/design solutions.
 
-This is a blank project for CDK development with Python.
+## Task 6
+#### Design & Develop - Design an end-to-end CI/CD delivery pipeline for a website on AWS that has following components: 1) EC2 instances for some static calculations 2) S3 for website pages 3) API GW and lambda triggers 4) CloudWatch alarms on number of API calls received
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
 
-To manually create a virtualenv on MacOS and Linux:
+## Tech Stack
+##### **Source Control** AWS S3 Bucket
+##### **Services** CodePipeline, S3, CodeBuild, Code Deploy, API Gateway, Lmbda, CloudWatch alarms, Cloud Front , Amazon Cognito , Cloud Trail , Code pipeline components, Amazon EC2, amazon secrets Manager 
 
-```
-$ python3 -m venv .venv
-```
+## Solution
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+### Introduction:
+#### What is AWS CI CD pipeline?
+CI/CD can be pictured as a pipeline, where new code is submitted on one end, tested over a series of stages (source, build, test, staging, and production), and then published as production-ready code. CICD pipeline overview. Each stage of the CI/CD pipeline is structured as a logical unit in the delivery process.
+Containers:
 
-```
-$ source .venv/bin/activate
-```
+#### Creating Pipelines
 
-If you are a Windows platform, you would activate the virtualenv like this:
+Creating Pipelines through the console is fairly straightforward. This document explains how to perform the following operation on a pipeline with a Lambda Package/Docker Image 
+a) Deploy 
+b) Maintain
+c) Rollback
 
-```
-% .venv\Scripts\activate.bat
-```
 
-Once the virtualenv is activated, you can install the required dependencies.
+## Design Image
 
-```
-$ pip install -r requirements.txt
-```
+![image](https://user-images.githubusercontent.com/108882924/207262098-cf79451c-d28b-4062-a25d-6fbfe48e62fd.png)
 
-At this point you can now synthesize the CloudFormation template for this code.
 
-```
-$ cdk synth
-```
+### Solution Explained:
+##### 
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
 
-## Useful commands
 
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
 
-Enjoy!
+## Authors
+
+- [Mariam Bhatti](mariambhatti8989@gmail.com)
