@@ -28,9 +28,12 @@ c) Rollback
 
 ## Design Image
 
+![image](https://user-images.githubusercontent.com/108882924/207317573-55fb85da-7f21-459a-8e73-46fbb3000e16.png)
+
+
 ![image](https://user-images.githubusercontent.com/108882924/207262098-cf79451c-d28b-4062-a25d-6fbfe48e62fd.png)
 
-![image](https://user-images.githubusercontent.com/108882924/207296438-73853dcd-03d8-482d-8b97-125e1f384b55.png)
+
 
 
 
