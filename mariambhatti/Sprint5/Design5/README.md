@@ -1,4 +1,4 @@
-# Pegasus Python Sprint 5
+# Sirius Python Sprint 5
 
 Sprint 5 is a series of tasks that entail various challenges designed to allow the trainee to build on existing and new knowledge of the AWS platform and develop/design solutions.
 
@@ -28,17 +28,20 @@ Sprint 5 is a series of tasks that entail various challenges designed to allow t
 
 
 ##S3 Bucket
-![image](https://user-images.githubusercontent.com/108882924/207579000-5d4106ea-e961-4463-b8cd-7df614e4bcae.png)
+![image](https://user-images.githubusercontent.com/108882924/207703476-6de3f85f-3ed5-498c-a1f0-9ee91b509025.png)
 
-
-
-##S3 Upload Triggred Invocations
-![App Screenshot](https://i.imgur.com/ygSJgMK.png)
 
 ##Database Screenshot
-![image](https://user-images.githubusercontent.com/108882924/207579759-ca04e080-33e3-4ae0-88c4-231777c85153.png)
+![image](https://user-images.githubusercontent.com/108882924/207703857-0822e1b0-adc9-4e54-9de1-b99924b4d456.png)
 
-![image](https://user-images.githubusercontent.com/108882924/207579505-7568c94d-2151-4757-9835-a22ce303dd0e.png)
+
+## SES Email notification
+![image](https://user-images.githubusercontent.com/108882924/207704080-b0d5b301-dc92-4bc3-9fb3-8cea310841e6.png)
+
+![image](https://user-images.githubusercontent.com/108882924/207704157-14d96f21-217c-456a-9411-4d06ff95e4b4.png)
+
+
+
 
 
 
