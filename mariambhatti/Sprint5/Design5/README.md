@@ -24,7 +24,9 @@ Sprint 5 is a series of tasks that entail various challenges designed to allow t
 ## Design Images
 ##Design Screenshot
 
-![image](https://user-images.githubusercontent.com/108882924/207578789-1f6a1e3a-da62-4a05-9afe-d873376e2dd7.png)
+![image](https://user-images.githubusercontent.com/108882924/207909166-b6d1187a-c5cf-4a21-a8ca-1ea155965325.png)
+
+
 
 
 ##S3 Bucket

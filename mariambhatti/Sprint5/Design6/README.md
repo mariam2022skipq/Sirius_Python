@@ -1,58 +1,35 @@
+# Sirius Python Sprint 5
 
-# Welcome to your CDK Python project!
+Sprint 5 is a series of tasks that entail various challenges designed to allow the trainee to build on existing and new knowledge of the AWS platform and develop/design solutions.
 
-This is a blank project for CDK development with Python.
+## Task 6
+#### Client needs a Notification System – that notifies the Admins about report summaries, users about operations within the system, notifying clients/users about any changes. What AWS service(s) would you use for such a system?
+ 
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+## Tech Stack
+##### **Services** S3, CLOUDWATCH , SnS, aurora, SNS, QUICKSIGHT, Event Bridge, Lambda , Guard duty
 
-To manually create a virtualenv on MacOS and Linux:
+## Solution 
 
-```
-$ python3 -m venv .venv
-```
+##### I am assuming that there are 3 stakeholder in this system . 1) Client 2) User 3) Admin.. Client and Users need notifications of any operational changes in the system
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+### Required: Summaries of Reports to Admin
 
-```
-$ source .venv/bin/activate
-```
+##### Application data is sent by eventBridge to Aurora and it can be connected to AWS QuickSIght to provide summary reports 
 
-If you are a Windows platform, you would activate the virtualenv like this:
+### Required: Changes Notification
 
-```
-% .venv\Scripts\activate.bat
-```
+##### EventBrige is connected to Cloudformation which is also connected to cloudwatch and it sends changes notification to users and clients when a lambda is triggered through SNS notifications
 
-Once the virtualenv is activated, you can install the required dependencies.
 
-```
-$ pip install -r requirements.txt
-```
+### Design Screenshot
+ 
+![image](https://user-images.githubusercontent.com/108882924/207843185-e0ef43a6-f785-4fda-aaaa-73ed90807e1d.png)
 
-At this point you can now synthesize the CloudFormation template for this code.
 
-```
-$ cdk synth
-```
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+## Authors
 
-## Useful commands
-
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
-
-Enjoy!
+- Mariam Bhatti
+- mariambhatti8989@gmail.com
