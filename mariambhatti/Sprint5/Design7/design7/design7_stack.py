@@ -35,6 +35,8 @@ class Design7Stack(Stack):
         s3_bucket = self.createS3Bucket()
         #s3_bucket.add_event_notification(s3_.EventType.OBJECT_CREATED, s3n.LambdaDestination(signed_lambda))
         s3_bucket.grant_read_write(signed_lambda)
+        #signed_lambda.add_environment(s3_bucket)
+        signed_lambda.add_environment(key="MariamSignedBucket", value=s3_bucket.bucket_name)
 
         api = apigateway_.LambdaRestApi(self, "Mariam_Design7_API",
                                 handler=signed_lambda,    
@@ -49,10 +51,10 @@ class Design7Stack(Stack):
 
     def createS3Bucket(self):
         s3_Bucket = s3_.Bucket(
-            self, "Mariam_Signed_Bucket",
+            self, "MariamSignedBucket",
             #id=s3_id,
             removal_policy=RemovalPolicy.DESTROY,
-            versioned=True,
+            #versioned=True,
             public_read_access=False,
             auto_delete_objects=False
         )
@@ -76,6 +78,7 @@ class Design7Stack(Stack):
         lambda_role.add_managed_policy(iam_.ManagedPolicy.from_aws_managed_policy_name("AmazonDynamoDBFullAccess"))
         lambda_role.add_managed_policy(iam_.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"))
         lambda_role.add_managed_policy(iam_.ManagedPolicy.from_aws_managed_policy_name("AmazonSESFullAccess"))
+        lambda_role.add_managed_policy(iam_.ManagedPolicy.from_aws_managed_policy_name("AmazonAPIGatewayInvokeFullAccess"))
         return lambda_role
 
     
