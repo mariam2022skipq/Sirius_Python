@@ -26,9 +26,21 @@ To solve this Problem the following steps are followed
 
 The basic flow of the import process is as follows: the user makes an API, which is served by API Gateway and backed by a Lambda function. The Lambda function computes a signed URL granting upload access to an S3 bucket and returns that to API Gateway, and API Gateway forwards the signed URL back to the user. At this point, the user can use the existing S3 API to upload files larger than 10MB.
 
-### API Gateway Results
+### API Gateway Results (Getting the signed URL)
+![image](https://user-images.githubusercontent.com/108882924/208237764-65ed0b32-ec64-4155-b845-947c7a7b55a8.png)
+
+![image](https://user-images.githubusercontent.com/108882924/208237782-fcbd1103-146d-4ffd-b69e-d0c449b8a588.png)
+
+
+### Using Postman to send the file to S3 bucket using Pre-signed URL
+![image](https://user-images.githubusercontent.com/108882924/208237825-ccc5d0de-3cb4-457b-bcfa-c5942e97dad1.png)
+
+
 
 ### S3 bucket with Signed URL
+
+![image](https://user-images.githubusercontent.com/108882924/208237898-8c8037f0-30fc-4a18-acfd-8b30fa4301b2.png)
+
 
 
 To manually create a virtualenv on MacOS and Linux:
