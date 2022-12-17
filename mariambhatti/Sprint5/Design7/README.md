@@ -1,16 +1,35 @@
 
-# Welcome to your CDK Python project!
+# Sirius Python Sprint 5
 
-This is a blank project for CDK development with Python.
+Sprint 5 is a series of tasks that entail various challenges designed to allow the trainee to build on existing and new knowledge of the AWS platform and develop/design solutions.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+## Task 7 : Design and develop
+### What if we have 15MB file that we have to upload on S3 using API gateway. We have the limitation that our API gateway has the maximum payload capacity of 10MB. How you will solve this problem?
+
+### Explaination of the Solution:
+
+To solve this Problem the following steps are followed 
+1) AWS services use : API Gateway , AWS lambda, S3 bucket
+2) Configure API Gateway and Post method 
+3) configure API Gateway with AWS lambda 
+4) LAmbda returns the signed URL from S3 bucket to user 
+5) User can use this signed URL to upload directly to S3 bucekt
+6)API Gateway supports a reasonable payload size limit of 10MB. One way to work within this limit, but still offer a means of importing large datasets to your backend, is to allow uploads through S3. This article shows how to use AWS Lambda to expose an S3 signed URL in response to an API Gateway request. Effectively, this allows you to expose a mechanism allowing users to securely upload data directly to S3, triggered by the API Gateway.
+
+
+### Design Image
+![image](https://user-images.githubusercontent.com/108882924/208077924-f8d91e9d-6fed-451d-a536-2ce00d20c82a.png)
+
+![image](https://user-images.githubusercontent.com/108882924/208078029-6b4f0767-af92-4f11-a15a-fb8ab974d003.png)
+
+
+The basic flow of the import process is as follows: the user makes an API, which is served by API Gateway and backed by a Lambda function. The Lambda function computes a signed URL granting upload access to an S3 bucket and returns that to API Gateway, and API Gateway forwards the signed URL back to the user. At this point, the user can use the existing S3 API to upload files larger than 10MB.
+
+### API Gateway Results
+
+### S3 bucket with Signed URL
+
 
 To manually create a virtualenv on MacOS and Linux:
 

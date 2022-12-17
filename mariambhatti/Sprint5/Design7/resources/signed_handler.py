@@ -12,7 +12,7 @@ signed_bucket = os.environ['MariamSignedBucket']
 def lambda_handler(event, context):
     #Using boto3 client to generate Pre-signed URL
     s3 = boto3.client("s3")
-
+    # https://docs.aws.amazon.com/lambda/latest/dg/services-apigateway.html
     method = event["httpMethod"]
 
     #https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.generate_presigned_url
