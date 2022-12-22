@@ -41,18 +41,18 @@ class Sprint4Stack(Stack):
 
 
         """ Create API gateway and add methods and resource to it"""
-        api = ag_.LambdaRestApi(self, "Mariam_Sprint4_gateway",
+        new_api = ag_.LambdaRestApi(self, "Mariam_Docker_API",
                                 handler= apiLambda,
                                 proxy=False
                                 ) 
 
-        Websites = api.root.add_resource ("Websites")                       
-        items = api.root.add_resource("CRUD")
-        Websites.add_method("POST")
-        Websites.add_method("GET")
-        Websites.add_method("PATCH")
-        Websites.add_method("DELETE")
-        deployment = ag_.Deployment(self, "Mariamdeployment2", api=api)
+        url = new_api.root.add_resource ("CRUDOperations")                       
+        # items = api.root.add_resource("CRUD")
+        url.add_method("POST")
+        url.add_method("GET")
+        url.add_method("PATCH")
+        url.add_method("DELETE")
+        deployment = ag_.Deployment(self, "Mariamdeployment6", api=new_api)
         
         
         

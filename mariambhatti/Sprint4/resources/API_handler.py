@@ -4,146 +4,84 @@ import boto3
 import json
 import logging
 import os
-from custom_encoder import customEncoder
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
 
 #Access table through lambda function
-tablename = os.getenv("CRUD_URL_Table")
+tablename = os.getenv("URLTable")
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(tablename)
 
-#define methods
-getMethod = "GET"
-postMethod = "POST"
-patchMethod = "PATCH"
-deleteMethod = "DELETE"
-
-#defining path for the event
-healthPath = "/Health"
-webcrwalerPath = "/WebCrawler"
-websitepath = "/Websites"
-
+"""CRUD API for saving the url of websites"""
+#https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html
+URL=[]
 def lambda_handler(event, context):
-    logger.info(event)
-    httpMethod = event["httpMethod"]
-    path = event["path"]
-     
-    if httpMethod == getMethod and path == healthPath:
-        response = buildResponse (200)
-    elif httpMethod == getMethod and path == websitepath:
-        response = getWebsite(event['queryStringParameters']['websiteId'])
-    elif httpMethod == postMethod and path == websitepath:
-        response = addWebsite (json.loads(event['body']))
-    elif httpMethod == patchMethod and path == websitepath:
-        requestBody = json.loads(event['body'])
-        response = updateWebsite (requestBody['websiteId'], requestBody['updateKey'], requestBody['updateValue'])
-    elif httpMethod == deleteMethod and path == websitepath:
-        requestBody = json.loads(event['body'])
-        response = removeWebsite (requestBody['websiteId'])
-    elif httpMethod == getMethod and path == webcrwalerPath:
-        response = webcrawler()
+    # Get the method
+    httpmethod=event["httpMethod"]
+    # Get the url
+    url=event["body"]
+
+    # Perform CRUD operation if method matches
+    # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html?highlight=dynamodb
+    if httpmethod=="POST":
+        response = table.put_item(
+                            Item={ 
+                                "url":url
+                            }
+                        )
+        # Return these lines to be shown in API when doing CRUD operation
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json'
+            },
+            'body': 'URL Added Successfully'
+        }
+        
     
-    else:
-        response = buildResponse(404, 'not found')
-    
-    return response
-
-#defining the Getwebsite method after parsing the APIGateway JSON File
-def getWebsite(websiteId):
-    try:
-        response = table.get_item (
-            Key = {
-                'websiteId': websiteId
-            }
-        )
-        if 'Item' in response:
-            return buildResponse(200, response['Item'])
-        else:
-            return buildResponse (404, {'Message': 'websiteId: %s not found' % websiteId})
-    except:
-        logger.exception ('Do you custom error handling here')
-
-#defining the addWebsite API Gateway HTTP method for adding the URL to the table
-def addWebsite(requestBody):
-    try:
-        table.put_item (Item = requestBody)
-        body = {
-            'Operation': 'SAVE',
-            'Message': 'SUCCESS',
-            'Item': requestBody
-        }
-        return buildResponse(200, body)
-    except:
-        logger.exception ('Do you custom error handling here')
-
-def updateWebsite(websiteId, updateKey, updateValue):
-    try:
-        response = table.update_item(
-            Key = {
-                'websiteId': websiteId
-            },
-            UpdateExpression = 'set %s = :value' % updateKey,
-            ExpressionAttributeValues = {
-                ':value' : updateValue
-            },
-            ReturnValues = 'UPDATED_NEW' 
-        )
-        body = {
-            'Operation': 'UPDATE',
-            'Message': 'SUCCESS',
-            'UpdatedAttrebutes': response
-        }
-        return buildResponse (200,body)
-    except:
-        logger.exception ('Do you custom error handling here')
-
-def removeWebsite(websiteId):
-    try:
-        response = table.delete_item(
-            Key = {
-                'websiteId': websiteId
-            },
-            ReturnValues = 'ALL_OLD'
-        )
-        body = {
-            'Operation': 'DELETE',
-            'Message': 'SUCCESS',
-            'deletedItem': response
-        }
-        return buildResponse(200,body)
-    except:
-        logger.exception ('Do you custom error handling here')
-
-def webcrawler():
-    try:
+    if httpmethod=="GET":
         response = table.scan()
-        result = response['Items']
+        data=response["Items"]
+        for urls in data:
+            URL.append(urls['url'])
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json'
+            },
+            'body': URL
+        }
+
     
-        while 'lastEvaluatedKey' in response:
-            response = table.scan (ExclusiveStarKey = response['LastEvaluatedKey'])
-            result.extend(response['Items'])
-
-        body = {
-            'websites': result
+    if httpmethod=="PATCH":
+        response=table.update_item(
+                            Key={
+                                "url":url
+                            },
+                            UpdateExpression='SET url = :url11',
+                            ExpressionAttributeValues={
+                                                    ':url1': url
+                                                    }
+                            )
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json'
+            },
+            'body': 'URL Updated Successfully'
         }
-        return buildResponse(200, body)
-    except:
-        logger.exception ('Do you custom error handling here')
-
-
-def buildResponse(statusCode, body = None):
-    response = {
-        'statusCode': statusCode,
-        'headers': {
-            'Content-Type':'application/json',
-            'Access-Control-Allow-Origin' : '*'
+    
+    if httpmethod=="DELETE":
+        response=table.delete_item(
+                                Key={
+                                    "url":url
+                                    }
+                            )
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json'
+            },
+            'body': 'URL Deleted Successfully'
         }
-    }
-    if body is not None:
-        response['body'] = json.dumps(body, cls= customEncoder)
-    return response
-
-
-
+        
+    
     
