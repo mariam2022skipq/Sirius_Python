@@ -129,7 +129,7 @@ class Sprint4Stack(Stack):
 
     def create_url_table(self):
             table = db_.Table(self, "URLTable",
-            partition_key = db_.Attribute(name="url", type=db_.AttributeType.STRING),
+            partition_key = db_.Attribute(name="URL", type=db_.AttributeType.STRING),
             removal_policy = RemovalPolicy.DESTROY,)
             return table
     def create_dynamoDB_table(self):
