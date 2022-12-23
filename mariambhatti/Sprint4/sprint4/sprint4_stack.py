@@ -49,7 +49,7 @@ class Sprint4Stack(Stack):
         # items = api.root.add_resource("CRUD")
         url.add_method("POST")
         url.add_method("GET")
-        url.add_method("PATCH")
+        #url.add_method("PATCH")
         url.add_method("DELETE")
         deployment = ag_.Deployment(self, "Mariamdeployment6", api=new_api)
         
@@ -129,7 +129,7 @@ class Sprint4Stack(Stack):
 
     def create_url_table(self):
             table = db_.Table(self, "URLTable",
-            partition_key = db_.Attribute(name="URL", type=db_.AttributeType.STRING),
+            partition_key = db_.Attribute(name="url", type=db_.AttributeType.STRING),
             removal_policy = RemovalPolicy.DESTROY,)
             return table
     def create_dynamoDB_table(self):
