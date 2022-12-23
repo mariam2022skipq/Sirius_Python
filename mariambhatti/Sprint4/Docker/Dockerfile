@@ -6,4 +6,4 @@ WORKDIR /user/src/app
 
 ENTRYPOINT [ "pyresttest" ]
 
-CMD ["https://za7img25p0.execute-api.us-east-2.amazonaws.com/","api_test.yml"]
+CMD ["https://ri1brbwhii.execute-api.us-east-2.amazonaws.com","api_test.yml"]

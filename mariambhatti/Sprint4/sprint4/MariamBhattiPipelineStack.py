@@ -39,7 +39,7 @@ class MariamBhattiPipelineStack(Stack):
         
         #https://docs.aws.com/codebuild/latest/userguide/sample-docker-custom-image.html
         pyresttest=pipelines_.CodeBuildStep("Mariam_API_tests", commands=[],build_environment=codebuild.BuildEnvironment(
-            build_image=codebuild.LinuxBuildImage.from_asset(self, "Image", directory="./Docker").from_docker_registry(name="docker:dind"),privileged=True),
+            build_image=codebuild.LinuxBuildImage.from_asset(self, "Image", directory="Docker/").from_docker_registry(name="docker:dind"),privileged=True),
             partial_build_spec = codebuild.BuildSpec.from_object({
                 "version": 0.2,
                 "phases": {
