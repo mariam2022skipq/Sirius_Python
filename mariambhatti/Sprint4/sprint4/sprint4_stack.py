@@ -11,9 +11,8 @@ from aws_cdk import (
     aws_sns_subscriptions as subscriptions_,
     aws_cloudwatch_actions as cw_actions,
     aws_dynamodb as db_,
-    aws_codedeploy as cd_,
     aws_apigateway as ag_,
-    CfnOutput as co_,
+    #CfnOutput as co_,
 )
 from constructs import Construct
 from resources import constants as constants
@@ -159,16 +158,3 @@ class Sprint4Stack(Stack):
         lambda_role.add_managed_policy(iam_.ManagedPolicy.from_aws_managed_policy_name("CloudWatchFullAccess"))
         lambda_role.add_managed_policy(iam_.ManagedPolicy.from_aws_managed_policy_name("AmazonDynamoDBFullAccess"))       
         return lambda_role
-
-    
-
-
-
-
-
-
-
-
-        
-
-    

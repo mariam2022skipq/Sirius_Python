@@ -51,23 +51,6 @@ def lambda_handler(event, context):
         }
 
     
-    if httpmethod=="PATCH":
-        response=table.update_item(
-                            Key={
-                                "url":url
-                            },
-                            UpdateExpression='SET url = :url11',
-                            ExpressionAttributeValues={
-                                                    ':url1': url
-                                                    }
-                            )
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'application/json'
-            },
-            'body': 'URL Updated Successfully'
-        }
     
     if httpmethod=="DELETE":
         response=table.delete_item(

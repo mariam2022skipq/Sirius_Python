@@ -5,6 +5,7 @@ from constructs import Construct
 import aws_cdk.pipelines as pipelines_
 from aws_cdk import aws_codepipeline_actions as actions_
 import aws_cdk.pipelines as pipelines_
+from aws_cdk import aws_codebuild as codebuild
 from sprint4.MariamBhattiStage import MariamBhattiStage
 
 class MariamBhattiPipelineStack(Stack):
@@ -34,7 +35,29 @@ class MariamBhattiPipelineStack(Stack):
 
         #Adding stages
         #https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.core/Stage.html
-        betaTesting=MariamBhattiStage(self, "Beta")  #have to pass self and ID
+        betaTesting=MariamBhattiStage(self, "Beta")  #have to pass self and I
+        
+        #https://docs.aws.com/codebuild/latest/userguide/sample-docker-custom-image.html
+        pyresttest=pipelines_.CodeBuildStep("Mariam_API_tests", commands=[],build_environment=codebuild.BuildEnvironment(
+            build_image=codebuild.LinuxBuildImage.from_asset(self, "Image", directory="./Docker").from_docker_registry(name="docker:dind"),privileged=True),
+            partial_build_spec = codebuild.BuildSpec.from_object({
+                "version": 0.2,
+                "phases": {
+                "install":{
+                    "commands": [
+                    "nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &",
+                    "timeout 15 sh -c \"until docker info; do echo .; sleep 1; done\""
+                    ]
+                },
+                "pre_build":{
+                    "commands":["cd mariambhatti/Sprint4/Docker", "docker build -t apimariam ."]
+                }, 
+                "build":{
+                    "commands":["docker images", "docker run apimariam"]
+                }
+                } 
+            }))
+        
         pipeline.add_stage(betaTesting, pre =[
                                 pipelines_.ShellStep("Synth", input=source, 
                                 commands=[  'cd mariambhatti/Sprint4/',
@@ -47,7 +70,9 @@ class MariamBhattiPipelineStack(Stack):
                                             
                                 )
                             ]
+                           ,post=[pyresttest]
                         )
+        
         # code ref: https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.core/Stage.html
         # prod stage for pipeline
         prod=MariamBhattiStage(self, "Prod") #this is a prod stage ; it is not a testing stage
