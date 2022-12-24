@@ -33,13 +33,13 @@ class MariamBhattiPipelineStack(Stack):
         #https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.pipelines/ShellStep.html
         pipeline=pipelines_.CodePipeline(self, "MariamBhattiPipelineSprint4", synth=synth)
 
-        #Adding stages
+        ##Adding stages
         #https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.core/Stage.html
         betaTesting=MariamBhattiStage(self, "Beta")  #have to pass self and I
         
         #https://docs.aws.com/codebuild/latest/userguide/sample-docker-custom-image.html
         pyresttest=pipelines_.CodeBuildStep("Mariam_API_tests", commands=[],build_environment=codebuild.BuildEnvironment(
-            build_image=codebuild.LinuxBuildImage.from_asset(self, "Image", directory="Docker/").from_docker_registry(name="docker:dind"),privileged=True),
+            build_image=codebuild.LinuxBuildImage.from_asset(self, "Pyresttest-Image", directory="./pyrest").from_docker_registry(name="docker:dind"),privileged=True),
             partial_build_spec = codebuild.BuildSpec.from_object({
                 "version": 0.2,
                 "phases": {
@@ -50,10 +50,10 @@ class MariamBhattiPipelineStack(Stack):
                     ]
                 },
                 "pre_build":{
-                    "commands":["cd mariambhatti/Sprint4/Docker", "docker build -t apimariam ."]
+                    "commands":["cd mariambhatti/Sprint4/pyrest", "docker build -t apimariam5 ."]
                 }, 
                 "build":{
-                    "commands":["docker images", "docker run apimariam"]
+                    "commands":["docker run apimariam"]
                 }
                 } 
             }))
