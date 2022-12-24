@@ -1,0 +1,22 @@
+- config:
+    - testset: "CRUDOperations tests"
+    - timeout: 100  
+- test: #testing the get function
+    - name: "get"
+    - url: "/prod/CRUDOperations/"
+    - method: 'GET'
+
+
+- test: # create entity by POST
+    - name: "post"
+    - url: "/prod/CRUDOperations/"
+    - method: "POST"
+    - body: '{"url": "google.com","httpmethod": "POST"}'
+    - headers: {Content-Type: application/json}
+
+- test: # create entity by POST
+    - name: "delete"
+    - url: "/prod/CRUDOperations/"
+    - method: "DELETE"
+    - body: '{"url": "google.com","httpmethod": "DELETE"}'
+    - headers: {Content-Type: application/json}

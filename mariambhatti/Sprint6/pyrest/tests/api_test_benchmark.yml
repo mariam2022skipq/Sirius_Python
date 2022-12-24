@@ -1,0 +1,31 @@
+- config:
+    - testset: "Benchmark tests using test app"
+
+- benchmark: # create entity
+    - name: "get"
+    - url: "/prod/CRUDOperations/"
+    - warmup_runs: 2
+    - 'benchmark_runs': '5'
+    - metrics:
+        - total_time
+        - total_time: mean
+
+- benchmark:
+    - name: "post"
+    - url: "/prod/CRUDOperations/"
+    - body: '{"url": "https://www.skipq.org/", "httpmethod": "POST"}'
+    - warmup_runs: 2
+    - 'benchmark_runs': '5'
+    - metrics:
+        - total_time
+        - total_time: mean
+
+- benchmark:
+    - name: "delete"
+    - url: "/prod/CRUDOperations/"
+    - body: '{"url": "https://www.skipq.org/", "httpmethod": "DELETE"}'
+    - warmup_runs: 2
+    - 'benchmark_runs': '5'
+    - metrics:
+        - total_time
+        - total_time: mean
