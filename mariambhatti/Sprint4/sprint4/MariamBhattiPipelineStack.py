@@ -50,7 +50,7 @@ class MariamBhattiPipelineStack(Stack):
                     ]
                 },
                 "pre_build":{
-                    "commands":["cd mariambhatti/Sprint4/pyrest", "docker build -t api-mar-7."]
+                    "commands":["cd mariambhatti/Sprint4/pyrest", "docker build -t api-mar-7 ."]
                 }, 
                 "build":{
                     "commands":["docker run api-mar-7"]
