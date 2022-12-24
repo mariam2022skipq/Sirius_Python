@@ -1,6 +1,8 @@
-SPRINT 4 PROJECT : API GATEWAY
+SPRINT 6 Project : Dockerizing RESTFUL CRUD API Gateway Project for Web health Application!
 #  RESTFUL CRUD API Gateway Project for Web health Application!
-#### This is a AWS CRUD API Gateway application for the Web Crawler app to populate a URL DynamoDB table to perform REST API CRUD operations and monitor the resource web health.
+### Use docker to build API test clients using pyresttest. 
+
+#### This is a Dockerized  AWS CRUD API Gateway application for the Web Crawler app to populate a URL DynamoDB table to perform REST API CRUD operations and monitor the resource web health.
 
 ##### [Back-to-Top](#back-to-top)
 ---
@@ -45,6 +47,10 @@ SPRINT 4 PROJECT : API GATEWAY
 
 >  ## Overview
  <br />
+ 
+## Use docker to build API test clients using pyresttest. 
+Publish the built images to Elastic Container Registry (ECR). Continuously run functional and security API tests as cron-job on local machines. These tests will exercise the web crawler’s CRUD endpoint built in Sprint 4. 
+Deploy API test clients from (1) on an EC2 instance. Build and push API test dockers through CodePipeline. Push API test results into CloudWatch. Setup alarming and notification on API test metrics. Extend tests in each stage.
 
 This project builds a CRUD API Gateway endpoint for our Web Crawler application which further populates a URL dynamo DB to perform REST API CRUD operation
 Further , we can monitor the web health of all the URLS provided by the client through API gateway endpoint with CI/CD implemented with a CRUD business
@@ -103,7 +109,8 @@ The **DELETE** method  performs the functionality to delete a record in the tabl
 
  > ## CI/CD Pipeline
  <br />
-
+### The CI/CD pipeline takes docker image container from the github source code . The pyrest tests for GET,POST and DELETE method and bencmark tests for these files are also present in pyrest folder along with Dockerfile.
+### The Dockerfile is composed of prebuild docker image from thoom/pyresttest and contains pre-built image of Docker , working directory, entry point and commands
  The CI/CD Pipeline is implemented using **AWS CodePipeline** as the base, **Github** as a **Source**, **AWS CodeBuild** as the build service and **AWS CodeDeploy** for deployment.
  The multi-stage pipeline CI/CD is divided into 2 stages with unit, functional and integration tests being perfomed, also Manual approval is required in pre production stage:
  <br /> 
@@ -218,39 +225,47 @@ In order to display the GUI of multiple services which i have used in my project
 * #### API Gateway Screenshots
 
 <br />
-![image](https://user-images.githubusercontent.com/108882924/205706962-ef2b82f7-acdc-4717-9a07-7a0bdcadcb5f.png)
+![image](https://user-images.githubusercontent.com/108882924/209429818-9a351d3d-3494-4a6a-97c8-3f2cec574e1d.png)
 
-![image](https://user-images.githubusercontent.com/108882924/205707395-cfa7289a-cb39-4245-bc0c-da062a271f8e.png)
+![image](https://user-images.githubusercontent.com/108882924/209429843-90e119ef-9745-4891-abcb-bf2c3ebcd9da.png)
 
-![image](https://user-images.githubusercontent.com/108882924/205707505-7e8e86fc-a35a-43e7-95cc-52d6b31effcc.png)
+![image](https://user-images.githubusercontent.com/108882924/209429861-5b42f1cf-274a-45d4-baf8-714324eb5926.png)
+
+
+
 
 
 <br />
 
 * #### URL TABLE DYNAMO DB SNAPSHOTS
 * 
-![image](https://user-images.githubusercontent.com/108882924/205707811-3cd422a2-180d-4f6a-bda1-147b75367583.png)
-
-![image](https://user-images.githubusercontent.com/108882924/205708356-c2608801-a3da-4eef-bb5f-3d0b2d865d64.png)
+![image](https://user-images.githubusercontent.com/108882924/209429913-d9e8889a-7006-4478-acc2-293b3dcbc4fc.png)
 
 <br />
-
-
-<br />
-
-* #### CloudWatch Screenshots
-<br />
-![image](https://user-images.githubusercontent.com/108882924/205710047-e90cbc5b-1d2e-4f0e-8d1b-7a1d75c4ab8a.png)
-
 
 
 <br />
 
 * #### CodePipeline Screenshots
 <br />
-![image](https://user-images.githubusercontent.com/108882924/205710151-5e2789aa-b21f-4045-9870-1945184b924c.png)
 
-![image](https://user-images.githubusercontent.com/108882924/205710287-0cfce995-036a-4736-9404-bb76b48b500b.png)
+![image](https://user-images.githubusercontent.com/108882924/209430980-fc2e515c-67c6-49c7-a641-c3b2351a084c.png)
+
+![image](https://user-images.githubusercontent.com/108882924/209430995-605af8f8-5dd6-4d68-91f4-fbef8b967d75.png)
+
+
+
+![image](https://user-images.githubusercontent.com/108882924/209430368-174e1ac9-f2f4-468b-9c10-e7b6e366f928.png)
+
+
+
+<br />
+
+* #### Docker Pyrest Tests 
+* 
+![image](https://user-images.githubusercontent.com/108882924/209430023-664cde97-3291-455f-8432-87465f9afe49.png)
+
+![image](https://user-images.githubusercontent.com/108882924/209430056-7fedb330-2b28-4be2-9a45-37976e962ee4.png)
 
 
 <br />
@@ -267,6 +282,9 @@ In order to display the GUI of multiple services which i have used in my project
 Below list contains some of the most handy commands that were used freuently during this project:
 
 ```
+docker ps -a
+docker build -t api-test .
+docker run api-test
 git add . >> Adds the current changes to staging
 git commit -m "" >> Adds the change set in git history
 git push >> Pushes the changes to Github Repository
